@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>La Voz de Beatriz | La Enfermera que entiende la IA</title>
+  <style>
+    /* ── RESET & BASE ── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --neon:  #00FF88;
+      --agua:  #00CCAA;
+      --bg:    #0a0a0a;
+      --bg2:   #111111;
+      --white: #f0f0f0;
+      --gray:  #888;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ── CURSOR GLOW ── */
+    .cursor-glow {
+      position: fixed;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,255,136,0.07) 0%, transparent 70%);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      transition: left 0.15s ease, top 0.15s ease;
+      z-index: 0;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 6%;
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,255,136,0.08);
+    }
+
+    .nav-logo {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--neon);
+      letter-spacing: 0.05em;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--gray);
+      text-decoration: none;
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover { color: var(--neon); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 6rem 6% 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* animated grid background */
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,255,136,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,136,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      animation: gridMove 20s linear infinite;
+    }
+
+    @keyframes gridMove {
+      from { transform: translateY(0); }
+      to   { transform: translateY(60px); }
+    }
+
+    .hero-badge {
+      display: inline-block;
+      border: 1px solid var(--neon);
+      color: var(--neon);
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.4rem 1.2rem;
+      border-radius: 100px;
+      margin-bottom: 1.8rem;
+      animation: fadeInDown 0.8s ease both;
+      position: relative;
+    }
+
+    .hero-name {
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      animation: fadeInUp 0.8s ease 0.2s both;
+      position: relative;
+    }
+
+    .hero-name span {
+      background: linear-gradient(135deg, var(--neon), var(--agua));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-title {
+      font-size: clamp(1rem, 2.5vw, 1.4rem);
+      color: var(--gray);
+      margin-top: 1.2rem;
+      font-weight: 400;
+      animation: fadeInUp 0.8s ease 0.35s both;
+      position: relative;
+    }
+
+    .hero-tagline {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--white);
+      margin-top: 1.4rem;
+      max-width: 640px;
+      line-height: 1.65;
+      animation: fadeInUp 0.8s ease 0.5s both;
+      position: relative;
+    }
+
+    .hero-tagline em {
+      color: var(--neon);
+      font-style: normal;
+      font-weight: 600;
+    }
+
+    .hero-cta {
+      margin-top: 2.5rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: fadeInUp 0.8s ease 0.65s both;
+      position: relative;
+    }
+
+    .btn-primary {
+      background: var(--neon);
+      color: #000;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+      padding: 0.85rem 2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 20px rgba(0,255,136,0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 35px rgba(0,255,136,0.55);
+    }
+
+    .btn-secondary {
+      border: 1px solid rgba(0,255,136,0.4);
+      color: var(--neon);
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+      padding: 0.85rem 2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(0,255,136,0.08);
+      transform: translateY(-2px);
+    }
+
+    /* scroll indicator */
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--gray);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      animation: fadeInUp 1s ease 1s both;
+    }
+
+    .scroll-hint span { animation: bounce 2s infinite; }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(6px); }
+    }
+
+    /* ── SECTIONS SHARED ── */
+    section {
+      padding: 7rem 6%;
+      position: relative;
+    }
+
+    .section-label {
+      color: var(--neon);
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+      display: block;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 2rem;
+    }
+
+    /* ── SOBRE MÍ ── */
+    #sobre {
+      background: var(--bg2);
+    }
+
+    .sobre-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .sobre-text p {
+      color: #aaa;
+      line-height: 1.85;
+      margin-bottom: 1.2rem;
+      font-size: 1.05rem;
+    }
+
+    .sobre-text p strong {
+      color: var(--white);
+    }
+
+    .sobre-text p em {
+      color: var(--neon);
+      font-style: normal;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .stat-card {
+      background: var(--bg);
+      border: 1px solid rgba(0,255,136,0.12);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+
+    .stat-card:hover {
+      border-color: var(--neon);
+      transform: translateY(-4px);
+    }
+
+    .stat-number {
+      font-size: 2.2rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--neon), var(--agua));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+    }
+
+    .stat-label {
+      color: var(--gray);
+      font-size: 0.85rem;
+      margin-top: 0.4rem;
+    }
+
+    /* ── FOTO PLACEHOLDER ── */
+    .foto-placeholder {
+      width: 100%;
+      aspect-ratio: 1;
+      max-width: 360px;
+      margin: 0 auto;
+      border-radius: 24px;
+      background: linear-gradient(135deg, #0a0a0a 0%, #111 100%);
+      border: 2px solid rgba(0,255,136,0.2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 60px rgba(0,255,136,0.08);
+    }
+
+    .foto-placeholder::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: 26px;
+      background: linear-gradient(135deg, var(--neon), var(--agua), transparent, transparent);
+      z-index: 0;
+      animation: rotateBorder 4s linear infinite;
+    }
+
+    .foto-placeholder::after {
+      content: '';
+      position: absolute;
+      inset: 2px;
+      border-radius: 22px;
+      background: #0e0e0e;
+      z-index: 1;
+    }
+
+    @keyframes rotateBorder {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    .foto-inicial {
+      font-size: 6rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--neon), var(--agua));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      position: relative;
+      z-index: 2;
+    }
+
+    .foto-hint {
+      color: var(--gray);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ── LO QUE HAGO ── */
+    #hago {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .hago-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    /* card expandible */
+    .card {
+      background: var(--bg2);
+      border: 1px solid rgba(0,204,170,0.1);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--neon), var(--agua));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .card:hover {
+      border-color: rgba(0,255,136,0.3);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+
+    .card.open {
+      border-color: var(--neon);
+      box-shadow: 0 20px 50px rgba(0,255,136,0.12);
+      transform: translateY(-4px);
+    }
+
+    .card:hover::before, .card.open::before { opacity: 1; }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .card-icon {
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .card-toggle {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      border: 1px solid rgba(0,255,136,0.25);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--neon);
+      font-size: 1rem;
+      flex-shrink: 0;
+      transition: background 0.3s, transform 0.4s;
+      margin-top: 0.2rem;
+    }
+
+    .card.open .card-toggle {
+      background: rgba(0,255,136,0.1);
+      transform: rotate(45deg);
+    }
+
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+      color: var(--white);
+    }
+
+    .card-desc {
+      color: #888;
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    /* extra content expandible */
+    .card-extra {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease;
+      opacity: 0;
+    }
+
+    .card.open .card-extra {
+      max-height: 400px;
+      opacity: 1;
+    }
+
+    .card-extra-inner {
+      padding-top: 1.2rem;
+      border-top: 1px solid rgba(0,255,136,0.1);
+      margin-top: 1.2rem;
+    }
+
+    .card-extra-inner ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+
+    .card-extra-inner ul li {
+      color: #bbb;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+    }
+
+    .card-extra-inner ul li::before {
+      content: '▸';
+      color: var(--neon);
+      flex-shrink: 0;
+      margin-top: 0.05rem;
+    }
+
+    .card-tag {
+      display: inline-block;
+      background: rgba(0,255,136,0.08);
+      border: 1px solid rgba(0,255,136,0.2);
+      color: var(--neon);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      padding: 0.25rem 0.75rem;
+      border-radius: 100px;
+      margin-top: 1rem;
+    }
+
+    /* ── CONTACTO ── */
+    #contacto {
+      background: var(--bg2);
+    }
+
+    .contacto-inner {
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .contacto-inner .section-title { margin-bottom: 0.8rem; }
+
+    .contacto-sub {
+      color: var(--gray);
+      font-size: 1rem;
+      margin-bottom: 3rem;
+      line-height: 1.7;
+    }
+
+    .social-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .social-link {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      background: var(--bg);
+      border: 1px solid rgba(0,255,136,0.12);
+      border-radius: 12px;
+      padding: 1.1rem 1.5rem;
+      text-decoration: none;
+      color: var(--white);
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+
+    .social-link:hover {
+      border-color: var(--neon);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0,255,136,0.15);
+      color: var(--neon);
+    }
+
+    .social-icon {
+      width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(0,255,136,0.08);
+      border-radius: 8px;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .social-handle { color: var(--gray); font-size: 0.8rem; font-weight: 400; }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 2.5rem 6%;
+      color: var(--gray);
+      font-size: 0.8rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    footer span { color: var(--neon); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* scroll-reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .sobre-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      .stats-grid  { grid-template-columns: 1fr 1fr; }
+      .social-grid { grid-template-columns: 1fr; }
+      nav { padding: 1rem 5%; }
+      .nav-links { gap: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- cursor glow -->
+  <div class="cursor-glow" id="glow"></div>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="#hero">@lavozdebeatriz</a>
+    <ul class="nav-links">
+      <li><a href="#sobre">Sobre mí</a></li>
+      <li><a href="#hago">Lo que hago</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-badge">La Enfermera que entiende la IA</div>
+    <h1 class="hero-name">La Voz de <span>Beatriz</span></h1>
+    <p class="hero-title">Enfermera · Creadora · Voz del futuro</p>
+    <p class="hero-tagline">
+      <em>Dramaqueen certificada.</em> Superviviente del COVID.<br>
+      Ahora te explica la IA pa que <em>no te quedes obsoleta.</em>
+    </p>
+    <div class="hero-cta">
+      <a href="#hago" class="btn-primary">Lo que hago</a>
+      <a href="#contacto" class="btn-secondary">Encuéntrame</a>
+    </div>
+    <div class="scroll-hint">
+      <span>↓</span>
+      scroll
+    </div>
+  </section>
+
+  <!-- SOBRE MÍ -->
+  <section id="sobre">
+    <div class="sobre-inner">
+      <div class="sobre-text reveal">
+        <span class="section-label">// Sobre mí</span>
+        <h2 class="section-title">Enfermera.<br>Creadora.<br><span style="color:var(--neon)">Visionaria.</span></h2>
+        <p>
+          Soy <strong>Beatriz</strong>, enfermera de vocación y exploradora de la inteligencia artificial por convicción.
+          Sobreviví al COVID en primera línea y lo que aprendí allí me cambió la perspectiva de todo.
+        </p>
+        <p>
+          Hoy mezclo mi mundo —<em>la salud, la voz, la tecnología</em>— para crear contenido que entienda de verdad
+          la gente que no tiene tiempo de perderse en tecnicismos.
+        </p>
+        <p>
+          La IA no es el futuro. <em>Es el ahora.</em> Y yo estoy aquí para que tú no te lo pierdas.
+        </p>
+      </div>
+      <div class="reveal" style="display:flex; flex-direction:column; gap:1.5rem; align-items:center;">
+        <div class="foto-placeholder">
+          <div class="foto-inicial">B</div>
+          <div class="foto-hint">Tu foto aquí</div>
+        </div>
+        <div class="stats-grid" style="width:100%; max-width:360px;">
+          <div class="stat-card">
+            <div class="stat-number">+5</div>
+            <div class="stat-label">años en enfermería</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">IA</div>
+            <div class="stat-label">mi nueva especialidad</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">1 voz</div>
+            <div class="stat-label">clonada en ElevenLabs</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">∞</div>
+            <div class="stat-label">proyectos en mente</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LO QUE HAGO -->
+  <section id="hago">
+    <div class="hago-inner">
+      <span class="section-label reveal">// Lo que hago</span>
+      <h2 class="section-title reveal">Contenido con<br><span style="color:var(--agua)">propósito real.</span></h2>
+      <div class="cards-grid">
+
+        <div class="card reveal">
+          <div class="card-icon">🎙️</div>
+          <div class="card-header">
+            <div class="card-title">Voz IA</div>
+            <div class="card-toggle">+</div>
+          </div>
+          <div class="card-desc">
+            Mi voz está clonada en ElevenLabs. Creo audio y locuciones con IA para proyectos de todo tipo —desde apps hasta robots humanoides.
+          </div>
+          <div class="card-extra">
+            <div class="card-extra-inner">
+              <ul>
+                <li>Locuciones profesionales con mi voz clonada</li>
+                <li>Integración con proyectos de robótica e IA conversacional</li>
+                <li>Contenido de audio para apps, podcasts y anuncios</li>
+                <li>Disponible para colaboraciones y licencias</li>
+              </ul>
+              <span class="card-tag">ElevenLabs · Voz sintética · Robótica</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card reveal">
+          <div class="card-icon">🏥</div>
+          <div class="card-header">
+            <div class="card-title">IA + Salud</div>
+            <div class="card-toggle">+</div>
+          </div>
+          <div class="card-desc">
+            Explico herramientas de IA desde una perspectiva sanitaria real. Sin humo. Sin tecnicismos. Desde las trincheras del sistema.
+          </div>
+          <div class="card-extra">
+            <div class="card-extra-inner">
+              <ul>
+                <li>Análisis de herramientas IA para profesionales sanitarios</li>
+                <li>Formación y divulgación en entornos clínicos</li>
+                <li>Puente entre el mundo médico y la tecnología</li>
+                <li>Perspectiva real de enfermería de primera línea</li>
+              </ul>
+              <span class="card-tag">Enfermería · Divulgación · Formación</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card reveal">
+          <div class="card-icon">📱</div>
+          <div class="card-header">
+            <div class="card-title">Contenido en redes</div>
+            <div class="card-toggle">+</div>
+          </div>
+          <div class="card-desc">
+            Hago contenido en Instagram, TikTok, LinkedIn y X para que cualquier persona entienda la IA antes de que sea demasiado tarde.
+          </div>
+          <div class="card-extra">
+            <div class="card-extra-inner">
+              <ul>
+                <li>Vídeos cortos explicando IA de forma accesible</li>
+                <li>Tendencias tecnológicas filtradas para no-expertos</li>
+                <li>Colaboraciones con marcas y proyectos tech</li>
+                <li>Comunidad activa en 4 plataformas</li>
+              </ul>
+              <span class="card-tag">TikTok · Instagram · LinkedIn · X</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card reveal">
+          <div class="card-icon">🚀</div>
+          <div class="card-header">
+            <div class="card-title">Proyectos IA</div>
+            <div class="card-toggle">+</div>
+          </div>
+          <div class="card-desc">
+            Creo y desarrollo apps con IA, automatizaciones y productos digitales que generan valor real.
+          </div>
+          <div class="card-extra">
+            <div class="card-extra-inner">
+              <ul>
+                <li>Desarrollo de apps con inteligencia artificial</li>
+                <li>Automatizaciones de procesos con IA</li>
+                <li>Productos digitales orientados a resultados</li>
+                <li>Mentoría y consultoría para emprendedores</li>
+              </ul>
+              <span class="card-tag">Apps · Automatización · Consultoría</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto">
+    <div class="contacto-inner">
+      <span class="section-label reveal">// Contacto</span>
+      <h2 class="section-title reveal">Encuéntrame<br>donde sea.</h2>
+      <p class="contacto-sub reveal">
+        Estoy en todas partes. Si tienes un proyecto, una colaboración o simplemente quieres hablar de IA,
+        aquí me tienes.
+      </p>
+      <div class="social-grid reveal">
+
+        <a class="social-link" href="https://instagram.com/lavozdebeatriz" target="_blank">
+          <div class="social-icon">📸</div>
+          <div>
+            <div>Instagram</div>
+            <div class="social-handle">@lavozdebeatriz</div>
+          </div>
+        </a>
+
+        <a class="social-link" href="https://tiktok.com/@lavozdebeatriz" target="_blank">
+          <div class="social-icon">🎵</div>
+          <div>
+            <div>TikTok</div>
+            <div class="social-handle">@lavozdebeatriz</div>
+          </div>
+        </a>
+
+        <a class="social-link" href="https://linkedin.com/in/lavozdebeatriz" target="_blank">
+          <div class="social-icon">💼</div>
+          <div>
+            <div>LinkedIn</div>
+            <div class="social-handle">@lavozdebeatriz</div>
+          </div>
+        </a>
+
+        <a class="social-link" href="https://x.com/lavozdebeatriz" target="_blank">
+          <div class="social-icon">✖️</div>
+          <div>
+            <div>X / Twitter</div>
+            <div class="social-handle">@lavozdebeatriz</div>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>Hecho con <span>♥</span> y mucha IA · <span>@lavozdebeatriz</span> · 2026</p>
+  </footer>
+
+  <script>
+    // cursor glow follow
+    const glow = document.getElementById('glow');
+    document.addEventListener('mousemove', e => {
+      glow.style.left = e.clientX + 'px';
+      glow.style.top  = e.clientY + 'px';
+    });
+
+    // cards expandibles
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('click', () => {
+        const isOpen = card.classList.contains('open');
+        document.querySelectorAll('.card.open').forEach(c => c.classList.remove('open'));
+        if (!isOpen) card.classList.add('open');
+      });
+    });
+
+    // scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    reveals.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
