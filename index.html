@@ -622,6 +622,249 @@
       transform: translateY(0);
     }
 
+    /* ── PRODUCTOS GUMROAD ── */
+    #productos { background: var(--bg2); }
+
+    .productos-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .productos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .producto-card {
+      background: var(--bg);
+      border: 1px solid rgba(0,255,136,0.12);
+      border-radius: 16px;
+      padding: 2rem;
+      text-decoration: none;
+      color: var(--white);
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .producto-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--neon), var(--agua));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .producto-card:hover {
+      border-color: var(--neon);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+
+    .producto-card:hover::before { opacity: 1; }
+
+    .producto-emoji { font-size: 2.2rem; }
+
+    .producto-titulo {
+      font-size: 1.05rem;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .producto-desc {
+      color: #888;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .producto-price {
+      display: inline-block;
+      background: rgba(0,255,136,0.1);
+      border: 1px solid rgba(0,255,136,0.3);
+      color: var(--neon);
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 0.3rem 0.9rem;
+      border-radius: 100px;
+      letter-spacing: 0.05em;
+      align-self: flex-start;
+    }
+
+    .producto-cta {
+      color: var(--neon);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      margin-top: 0.4rem;
+    }
+
+    /* ── HISTORIA (BEITA SERIES) ── */
+    #historia { background: var(--bg); }
+
+    .historia-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .serie-badge {
+      display: inline-block;
+      background: rgba(229,9,20,0.15);
+      border: 1px solid rgba(229,9,20,0.4);
+      color: #e50914;
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.3rem 1rem;
+      border-radius: 100px;
+      margin-bottom: 1rem;
+    }
+
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      margin-top: 2rem;
+    }
+
+    .tl-item {
+      display: grid;
+      grid-template-columns: 90px 50px 1fr 110px;
+      gap: 16px;
+      align-items: center;
+      padding: 18px 20px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      cursor: default;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .tl-item:hover {
+      background: rgba(255,255,255,0.03);
+      border-color: rgba(255,255,255,0.06);
+    }
+
+    .tl-item.completado:hover { border-color: rgba(0,255,136,0.15); }
+    .tl-item.proximo { opacity: 0.5; }
+
+    .tl-day {
+      font-size: 10px;
+      letter-spacing: 2px;
+      font-family: monospace;
+      color: var(--gray);
+    }
+
+    .tl-item.completado .tl-day { color: var(--neon); }
+
+    .tl-emoji { font-size: 26px; text-align: center; }
+
+    .tl-info {}
+
+    .tl-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 3px;
+      flex-wrap: wrap;
+    }
+
+    .tl-title {
+      font-size: 15px;
+      font-weight: 700;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .tl-tag {
+      font-size: 9px;
+      padding: 2px 7px;
+      border-radius: 2px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .tl-item.completado .tl-tag {
+      background: rgba(0,255,136,0.12);
+      color: var(--neon);
+    }
+
+    .tl-item.proximo .tl-tag {
+      background: rgba(100,100,100,0.2);
+      color: var(--gray);
+    }
+
+    .tl-subtitle {
+      color: var(--gray);
+      font-size: 11px;
+      font-style: italic;
+    }
+
+    .tl-desc {
+      color: #aaa;
+      font-size: 13px;
+      margin-top: 8px;
+      line-height: 1.55;
+      max-width: 480px;
+      display: none;
+    }
+
+    .tl-item:hover .tl-desc { display: block; }
+
+    .tl-status {
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .tl-item.completado .tl-status { color: var(--neon); }
+    .tl-item.proximo .tl-status { color: var(--gray); }
+
+    .progreso-bar {
+      margin-top: 2.5rem;
+      background: #1a1a1a;
+      border-radius: 8px;
+      padding: 20px 24px;
+    }
+
+    .progreso-top {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .progreso-top span:first-child { color: var(--gray); }
+    .progreso-top span:last-child { color: var(--neon); }
+
+    .progreso-track {
+      background: #333;
+      border-radius: 2px;
+      height: 4px;
+    }
+
+    .progreso-fill {
+      background: linear-gradient(90deg, var(--neon), var(--agua));
+      width: 70%;
+      height: 100%;
+      border-radius: 2px;
+    }
+
+    .progreso-quote {
+      margin-top: 10px;
+      font-size: 11px;
+      color: #444;
+      font-style: italic;
+    }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
       .sobre-inner { grid-template-columns: 1fr; gap: 2.5rem; }
@@ -643,6 +886,8 @@
     <ul class="nav-links">
       <li><a href="#sobre">Sobre mí</a></li>
       <li><a href="#hago">Lo que hago</a></li>
+      <li><a href="#productos">Productos</a></li>
+      <li><a href="#historia">Mi historia</a></li>
       <li><a href="#contacto">Contacto</a></li>
     </ul>
   </nav>
@@ -806,6 +1051,206 @@
           </div>
         </div>
 
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTOS GUMROAD -->
+  <section id="productos">
+    <div class="productos-inner">
+      <span class="section-label reveal">// Mis productos</span>
+      <h2 class="section-title reveal">Descarga y<br><span style="color:var(--agua)">empieza hoy.</span></h2>
+      <div class="productos-grid">
+
+        <a class="producto-card reveal" href="https://beatrizvoice.gumroad.com/l/gbugyc" target="_blank">
+          <div class="producto-emoji">💊</div>
+          <div class="producto-titulo">20 prompts de IA que uso cada día como enfermera</div>
+          <div class="producto-desc">Los prompts exactos que uso en mi día a día clínico. Sin teoría, sin humo. Aplicables desde el primer minuto.</div>
+          <div class="producto-price">9 €</div>
+          <div class="producto-cta">Descargar en Gumroad →</div>
+        </a>
+
+        <a class="producto-card reveal" href="https://beatrizvoice.gumroad.com/l/qxgizj" target="_blank">
+          <div class="producto-emoji">🤖</div>
+          <div class="producto-titulo">Las IAs que todo sanitario debería conocer en 2026</div>
+          <div class="producto-desc">La guía definitiva de herramientas IA para el mundo sanitario. Curadas y probadas desde las trincheras del sistema.</div>
+          <div class="producto-price">Disponible</div>
+          <div class="producto-cta">Descargar en Gumroad →</div>
+        </a>
+
+        <a class="producto-card reveal" href="https://beatrizvoice.gumroad.com/l/ia-oposiciones-enfermeria" target="_blank">
+          <div class="producto-emoji">📝</div>
+          <div class="producto-titulo">IA para aprobar tus oposiciones de enfermería</div>
+          <div class="producto-desc">Usa la inteligencia artificial para estudiar más inteligente, no más duro. El método que nadie te enseña en la academia.</div>
+          <div class="producto-price">Disponible</div>
+          <div class="producto-cta">Descargar en Gumroad →</div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- MI HISTORIA (BEITA ORIGINAL SERIES) -->
+  <section id="historia">
+    <div class="historia-inner">
+      <span class="section-label reveal">// Mi historia</span>
+      <div class="serie-badge reveal">BEITA · ORIGINAL SERIES · T1 EN EMISIÓN</div>
+      <h2 class="section-title reveal">La Enfermera<br><span style="color:var(--neon)">y el Código.</span></h2>
+      <p style="color:#888; max-width:560px; line-height:1.7; font-size:1rem;" class="reveal">Una serie sobre atreverse. Sobre aprender sin formación técnica. Sobre convertirse en la referencia hispanohablante de IA en salud.</p>
+
+      <div class="timeline reveal">
+
+        <div class="tl-item completado">
+          <div class="tl-day">DÍA 01</div>
+          <div class="tl-emoji">💥</div>
+          <div class="tl-info">
+            <div class="tl-top">
+              <span class="tl-title">Instalando la cagada</span>
+              <span class="tl-tag">PILOTO</span>
+            </div>
+            <div class="tl-subtitle">The Origin Story</div>
+            <div class="tl-desc">Una enfermera valiente se enfrenta al PowerShell por primera vez. Hay errores. Hay sudor. Hay victorias inesperadas. Claude Code queda instalado. Nada volverá a ser igual.</div>
+          </div>
+          <div class="tl-status">COMPLETADO</div>
+        </div>
+
+        <div class="tl-item completado">
+          <div class="tl-day">DÍA 02</div>
+          <div class="tl-emoji">🚀</div>
+          <div class="tl-info">
+            <div class="tl-top">
+              <span class="tl-title">330GB, bro</span>
+              <span class="tl-tag">ACCIÓN</span>
+            </div>
+            <div class="tl-subtitle">The Data Migration</div>
+            <div class="tl-desc">El escritorio queda organizado en 8 carpetas perfectas. La Marie Kondo digital ha entrado al chat. La ropa sin doblar sigue en standby.</div>
+          </div>
+          <div class="tl-status">COMPLETADO</div>
+        </div>
+
+        <div class="tl-item completado">
+          <div class="tl-day">DÍA 03</div>
+          <div class="tl-emoji">🧠</div>
+          <div class="tl-info">
+            <div class="tl-top">
+              <span class="tl-title">¿Qué demonios es Cowork?</span>
+              <span class="tl-tag">THRILLER</span>
+            </div>
+            <div class="tl-subtitle">The Awakening</div>
+            <div class="tl-desc">Nuestra protagonista descubre que no todos los Claudes son iguales. El multiverso de la IA se abre ante ella.</div>
+          </div>
+          <div class="tl-status">COMPLETADO</div>
+        </div>
+
+        <div class="tl-item completado">
+          <div class="tl-day">DÍA 04</div>
+          <div class="tl-emoji">🌐</div>
+          <div class="tl-info">
+            <div class="tl-top">
+              <span class="tl-title">La web existe</span>
+              <span class="tl-tag">DRAMA</span>
+            </div>
+            <div class="tl-subtitle">She Ships to Production</div>
+            <div class="tl-desc">lavozdebeatriz.github.io cobra vida. Neón, animaciones, diseño de otro planeta. GitHub no sabía lo que se le venía encima.</div>
+          </div>
+          <div class="tl-status">COMPLETADO</div>
+        </div>
+
+        <div class="tl-item completado">
+          <div class="tl-day">DÍA 05</div>
+          <div class="tl-emoji">💸</div>
+          <div class="tl-info">
+            <div class="tl-top">
+              <span class="tl-title">Beita, te presento a Gumroad</span>
+              <span class="tl-tag">COMEDIA</span>
+            </div>
+            <div class="tl-subtitle">The First Sale</div>
+            <div class="tl-desc">Primer producto digital publicado: 20 prompts de enfermera. 9 euros. El inicio de un imperio. Fecha histórica: 11 de marzo de 2026.</div>
+          </div>
+          <div class="tl-status">COMPLETADO</div>
+        </div>
+
+        <div class="tl-item completado">
+          <div class="tl-day">DÍA 06</div>
+          <div class="tl-emoji">📚</div>
+          <div class="tl-info">
+            <div class="tl-top">
+              <span class="tl-title">Un PDF, dos PDFs, tres PDFs</span>
+              <span class="tl-tag">ACCIÓN</span>
+            </div>
+            <div class="tl-subtitle">The Productivity Arc</div>
+            <div class="tl-desc">En un único día se publican DOS productos más. Bonus: versión en inglés para mercado internacional. Nadie la para.</div>
+          </div>
+          <div class="tl-status">COMPLETADO</div>
+        </div>
+
+        <div class="tl-item completado">
+          <div class="tl-day">DÍA 07</div>
+          <div class="tl-emoji">📄</div>
+          <div class="tl-info">
+            <div class="tl-top">
+              <span class="tl-title">El CV de las 9 vidas</span>
+              <span class="tl-tag">DRAMA</span>
+            </div>
+            <div class="tl-subtitle">The Plot Twist</div>
+            <div class="tl-desc">Mientras monetiza su pasión por la IA, una oferta de trabajo en remoto aparece. CV traducido en tiempo récord. La ambición no descansa.</div>
+          </div>
+          <div class="tl-status">COMPLETADO</div>
+        </div>
+
+        <div class="tl-item proximo">
+          <div class="tl-day">DÍA ??</div>
+          <div class="tl-emoji">🎙️</div>
+          <div class="tl-info">
+            <div class="tl-top">
+              <span class="tl-title">La voz que se responde a sí misma</span>
+              <span class="tl-tag">SCI-FI</span>
+            </div>
+            <div class="tl-subtitle">The Voice Singularity</div>
+            <div class="tl-desc">Claude API + ElevenLabs + voz clonada = asistente personal que habla con tu propia voz. Cuando esto ocurra, el mundo no estará listo.</div>
+          </div>
+          <div class="tl-status">PRÓXIMO</div>
+        </div>
+
+        <div class="tl-item proximo">
+          <div class="tl-day">DÍA ??</div>
+          <div class="tl-emoji">🏥</div>
+          <div class="tl-info">
+            <div class="tl-top">
+              <span class="tl-title">La enfermera y la IA</span>
+              <span class="tl-tag">ÉPICO</span>
+            </div>
+            <div class="tl-subtitle">The Healthcare Revolution</div>
+            <div class="tl-desc">La referencia hispanohablante de IA en salud está a punto de aparecer. El nicho existe. La audiencia espera.</div>
+          </div>
+          <div class="tl-status">PRÓXIMO</div>
+        </div>
+
+        <div class="tl-item proximo">
+          <div class="tl-day">DÍA ??</div>
+          <div class="tl-emoji">🏆</div>
+          <div class="tl-info">
+            <div class="tl-top">
+              <span class="tl-title">Ambassador</span>
+              <span class="tl-tag">LEGENDARIO</span>
+            </div>
+            <div class="tl-subtitle">The Final Boss</div>
+            <div class="tl-desc">El objetivo final. Anthropic. Enfermera embajadora. Este episodio se está escribiendo solo.</div>
+          </div>
+          <div class="tl-status">PRÓXIMO</div>
+        </div>
+
+      </div>
+
+      <div class="progreso-bar reveal">
+        <div class="progreso-top">
+          <span>PROGRESO HACIA AMBASSADOR</span>
+          <span>7 / 10 episodios</span>
+        </div>
+        <div class="progreso-track">
+          <div class="progreso-fill"></div>
+        </div>
+        <div class="progreso-quote">"3 PDFs publicados. 1 web online. 1 CV actualizado. La ropa sin doblar sigue en standby. El Ambassador, no." 🎯</div>
       </div>
     </div>
   </section>
