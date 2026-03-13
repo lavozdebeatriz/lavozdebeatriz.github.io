@@ -655,11 +655,35 @@
     }
 
     .producto-cta {
-      color: var(--neon);
-      font-size: 0.85rem;
-      font-weight: 600;
+      display: block;
+      text-align: center;
+      background: var(--neon);
+      color: #000;
+      font-size: 0.88rem;
+      font-weight: 700;
       letter-spacing: 0.05em;
-      margin-top: 0.4rem;
+      padding: 0.75rem 1.2rem;
+      border-radius: 8px;
+      margin-top: 0.8rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 16px rgba(0,255,136,0.25);
+    }
+
+    .producto-card:hover .producto-cta {
+      transform: translateY(-2px);
+      box-shadow: 0 0 28px rgba(0,255,136,0.5);
+    }
+
+    .producto-cta.gratis {
+      background: transparent;
+      color: var(--neon);
+      border: 1px solid rgba(0,255,136,0.5);
+      box-shadow: none;
+    }
+
+    .producto-card:hover .producto-cta.gratis {
+      background: rgba(0,255,136,0.08);
+      box-shadow: 0 0 16px rgba(0,255,136,0.2);
     }
 
     /* ── HISTORIA (BEITA SERIES) ── */
@@ -821,13 +845,67 @@
       font-style: italic;
     }
 
+    /* ── HAMBURGUESA ── */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      z-index: 101;
+    }
+
+    .nav-hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--neon);
+      border-radius: 2px;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
       .sobre-inner { grid-template-columns: 1fr; gap: 2.5rem; }
       .stats-grid  { grid-template-columns: 1fr 1fr; }
       .social-grid { grid-template-columns: 1fr; }
       nav { padding: 1rem 5%; }
-      .nav-links { gap: 1.2rem; }
+
+      .nav-hamburger { display: flex; }
+
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        gap: 0;
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(10,10,10,0.97);
+        backdrop-filter: blur(16px);
+        justify-content: center;
+        align-items: center;
+        z-index: 99;
+      }
+
+      .nav-links.open { display: flex; }
+
+      .nav-links li { width: 100%; text-align: center; }
+
+      .nav-links a {
+        display: block;
+        font-size: 1.6rem;
+        font-weight: 700;
+        padding: 1.2rem 2rem;
+        letter-spacing: 0.05em;
+        color: var(--white);
+      }
+
+      .nav-links a:hover { color: var(--neon); }
     }
   </style>
 </head>
@@ -839,7 +917,10 @@
   <!-- NAV -->
   <nav>
     <a class="nav-logo" href="#hero">@lavozdebeatriz</a>
-    <ul class="nav-links">
+    <button class="nav-hamburger" id="menuBtn" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
       <li><a href="#sobre">Sobre mí</a></li>
       <li><a href="#hago">Lo que hago</a></li>
       <li><a href="#productos">Productos</a></li>
@@ -1022,23 +1103,23 @@
           <div class="producto-titulo">20 prompts de IA que uso cada día como enfermera</div>
           <div class="producto-desc">Los prompts exactos que uso en mi día a día clínico. Sin teoría, sin humo. Aplicables desde el primer minuto.</div>
           <div class="producto-price">9 €</div>
-          <div class="producto-cta">Descargar en Gumroad →</div>
+          <div class="producto-cta">Comprar ahora — 9 € →</div>
         </a>
 
         <a class="producto-card reveal" href="https://beatrizvoice.gumroad.com/l/qxgizj" target="_blank">
           <div class="producto-emoji">🤖</div>
           <div class="producto-titulo">Las IAs que todo sanitario debería conocer en 2026</div>
           <div class="producto-desc">La guía definitiva de herramientas IA para el mundo sanitario. Curadas y probadas desde las trincheras del sistema.</div>
-          <div class="producto-price">Disponible</div>
-          <div class="producto-cta">Descargar en Gumroad →</div>
+          <div class="producto-price">Gratis</div>
+          <div class="producto-cta gratis">Obtener gratis →</div>
         </a>
 
         <a class="producto-card reveal" href="https://beatrizvoice.gumroad.com/l/ia-oposiciones-enfermeria" target="_blank">
           <div class="producto-emoji">📝</div>
           <div class="producto-titulo">IA para aprobar tus oposiciones de enfermería</div>
           <div class="producto-desc">Usa la inteligencia artificial para estudiar más inteligente, no más duro. El método que nadie te enseña en la academia.</div>
-          <div class="producto-price">Disponible</div>
-          <div class="producto-cta">Descargar en Gumroad →</div>
+          <div class="producto-price">Gratis</div>
+          <div class="producto-cta gratis">Obtener gratis →</div>
         </a>
 
       </div>
@@ -1263,6 +1344,20 @@
   </footer>
 
   <script>
+    // menú hamburguesa
+    const menuBtn = document.getElementById('menuBtn');
+    const navLinks = document.getElementById('navLinks');
+    menuBtn.addEventListener('click', () => {
+      menuBtn.classList.toggle('open');
+      navLinks.classList.toggle('open');
+    });
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        menuBtn.classList.remove('open');
+        navLinks.classList.remove('open');
+      });
+    });
+
     // cursor glow follow
     const glow = document.getElementById('glow');
     document.addEventListener('mousemove', e => {
