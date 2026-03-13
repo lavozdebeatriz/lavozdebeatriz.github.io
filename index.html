@@ -316,68 +316,24 @@
       margin-top: 0.4rem;
     }
 
-    /* ── FOTO PLACEHOLDER ── */
-    .foto-placeholder {
+    /* ── FOTO PERFIL ── */
+    .foto-perfil-wrap {
       width: 100%;
-      aspect-ratio: 1;
       max-width: 360px;
       margin: 0 auto;
       border-radius: 24px;
-      background: linear-gradient(135deg, #0a0a0a 0%, #111 100%);
-      border: 2px solid rgba(0,255,136,0.2);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
       position: relative;
-      overflow: hidden;
-      box-shadow: 0 0 60px rgba(0,255,136,0.08);
-    }
-
-    .foto-placeholder::before {
-      content: '';
-      position: absolute;
-      inset: -2px;
-      border-radius: 26px;
-      background: linear-gradient(135deg, var(--neon), var(--agua), transparent, transparent);
-      z-index: 0;
-      animation: rotateBorder 4s linear infinite;
-    }
-
-    .foto-placeholder::after {
-      content: '';
-      position: absolute;
-      inset: 2px;
-      border-radius: 22px;
-      background: #0e0e0e;
-      z-index: 1;
-    }
-
-    @keyframes rotateBorder {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(360deg); }
-    }
-
-    .foto-inicial {
-      font-size: 6rem;
-      font-weight: 900;
+      padding: 3px;
       background: linear-gradient(135deg, var(--neon), var(--agua));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      line-height: 1;
-      position: relative;
-      z-index: 2;
+      box-shadow: 0 0 60px rgba(0,255,136,0.2);
     }
 
-    .foto-hint {
-      color: var(--gray);
-      font-size: 0.75rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      position: relative;
-      z-index: 2;
+    .foto-perfil-wrap img {
+      width: 100%;
+      border-radius: 22px;
+      display: block;
+      object-fit: cover;
+      aspect-ratio: 1;
     }
 
     /* ── LO QUE HAGO ── */
@@ -930,9 +886,8 @@
         </p>
       </div>
       <div class="reveal" style="display:flex; flex-direction:column; gap:1.5rem; align-items:center;">
-        <div class="foto-placeholder">
-          <div class="foto-inicial">B</div>
-          <div class="foto-hint">Tu foto aquí</div>
+        <div class="foto-perfil-wrap">
+          <img src="foto-beatriz.jpg" alt="Beatriz - La Voz de Beatriz">
         </div>
         <div class="stats-grid" style="width:100%; max-width:360px;">
           <div class="stat-card">
