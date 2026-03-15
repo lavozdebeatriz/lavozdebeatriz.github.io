@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NightBalance — Tu copiloto para las noches de viernes</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #06070f; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; padding: 1rem 0 2rem; font-family: 'DM Sans', system-ui, sans-serif; }
+.nb-phone {
+  width: 100%; max-width: 390px; background: #0b0c14;
+  border-radius: 28px; overflow: hidden; min-height: 680px;
+  border: 1px solid rgba(255,255,255,0.08); position: relative;
+}
+.nb-screen { display: none; flex-direction: column; min-height: 680px; padding: 24px 20px 28px; }
+.nb-screen.active { display: flex; }
+.lang-btn {
+  position: absolute; top: 16px; right: 16px; z-index: 10;
+  background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 20px; padding: 4px 12px; color: #aaa; font-size: 12px;
+  cursor: pointer; font-family: inherit;
+}
+.nb-logo { font-size: 24px; font-weight: 700; }
+.nb-logo span { color: #5B8DF6; }
+.hero-title { font-size: 26px; font-weight: 700; color: #f0f0f0; line-height: 1.2; }
+.hero-title em { color: #5B8DF6; font-style: normal; }
+.nb-btn { width: 100%; padding: 14px; border-radius: 14px; border: none; font-size: 15px; font-weight: 600; cursor: pointer; transition: transform 0.1s; font-family: inherit; }
+.nb-btn:active { transform: scale(0.98); }
+.btn-p { background: #5B8DF6; color: #fff; }
+.btn-p:hover { background: #4a7ce8; }
+.btn-g { background: rgba(255,255,255,0.07); color: #ccc; border: 1px solid rgba(255,255,255,0.12); }
+.step-dots { display: flex; gap: 6px; justify-content: center; margin-bottom: 20px; }
+.dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.12); transition: all 0.2s; }
+.dot.on { background: #5B8DF6; width: 20px; border-radius: 3px; }
+.dot.done { background: rgba(91,141,246,0.35); }
+.qlbl { font-size: 12px; color: #666; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
+.qtitle { font-size: 19px; font-weight: 600; color: #f0f0f0; margin-bottom: 6px; line-height: 1.3; }
+.qsub { font-size: 12px; color: #666; margin-bottom: 16px; line-height: 1.4; font-style: italic; }
+.opts { display: grid; gap: 8px; margin-bottom: 14px; }
+.opts.c2 { grid-template-columns: 1fr 1fr; }
+.opt { padding: 13px 10px; border-radius: 12px; border: 1.5px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.04); color: #ccc; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.15s; text-align: center; font-family: inherit; }
+.opt:hover { border-color: rgba(91,141,246,0.5); background: rgba(91,141,246,0.08); color: #c0d4fc; }
+.opt.sel { border-color: #5B8DF6; background: rgba(91,141,246,0.18); color: #8ab3fa; }
+.sv { font-size: 30px; font-weight: 700; color: #5B8DF6; margin: 6px 0; }
+.sv small { font-size: 15px; color: #888; font-weight: 400; }
+input[type=range] { width: 100%; accent-color: #5B8DF6; cursor: pointer; }
+select { width: 100%; padding: 13px 12px; border-radius: 12px; border: 1.5px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.06); color: #e0e0e0; font-size: 14px; font-family: inherit; cursor: pointer; appearance: none; margin-bottom: 14px; }
+select:focus { outline: none; border-color: #5B8DF6; }
+select option { background: #1a1b2e; color: #e0e0e0; }
+.spacer { flex: 1; }
+.nb-hdr { display: flex; align-items: center; margin-bottom: 16px; }
+.back { background: none; border: none; color: #777; cursor: pointer; font-size: 19px; margin-right: 10px; font-family: inherit; }
+.back:hover { color: #ccc; }
+.htitle { font-size: 16px; font-weight: 600; color: #e0e0e0; }
+.badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+.b-ok { background: rgba(29,158,117,0.15); color: #6ddab5; }
+.b-w { background: rgba(239,159,39,0.15); color: #f0c97a; }
+.b-r { background: rgba(226,75,74,0.15); color: #f08080; }
+.res-circle { width: 110px; height: 110px; border-radius: 50%; border: 3px solid #5B8DF6; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 14px; background: rgba(91,141,246,0.08); }
+.res-n { font-size: 34px; font-weight: 700; color: #5B8DF6; line-height: 1; }
+.res-l { font-size: 11px; color: #888; }
+.rcard { background: rgba(255,255,255,0.05); border-radius: 11px; border: 1px solid rgba(255,255,255,0.08); padding: 11px 13px; margin-bottom: 8px; }
+.rcard-t { font-size: 11px; color: #777; margin-bottom: 3px; }
+.rcard-v { font-size: 13px; color: #e0e0e0; font-weight: 500; }
+.tbox { border-radius: 11px; padding: 11px 13px; margin-bottom: 8px; font-size: 13px; line-height: 1.5; border: 1px solid; }
+.tbox.blue { background: rgba(91,141,246,0.08); border-color: rgba(91,141,246,0.2); color: #a8c0fa; }
+.tbox.green { background: rgba(29,158,117,0.08); border-color: rgba(29,158,117,0.3); color: #6ddab5; }
+.tbox.amber { background: rgba(239,159,39,0.08); border-color: rgba(239,159,39,0.3); color: #f0c97a; }
+.tbox.red { background: rgba(226,75,74,0.08); border-color: rgba(226,75,74,0.3); color: #f08080; }
+.sec-lbl { font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: 0.5px; margin: 10px 0 6px; }
+.dg5 { display: grid; grid-template-columns: repeat(5,1fr); gap: 5px; margin-bottom: 4px; }
+.dg { display: grid; grid-template-columns: repeat(4,1fr); gap: 5px; margin-bottom: 4px; }
+.dc { background: rgba(255,255,255,0.04); border: 1.5px solid rgba(255,255,255,0.08); border-radius: 9px; padding: 7px 3px; text-align: center; cursor: pointer; transition: all 0.12s; font-family: inherit; }
+.dc:hover { border-color: rgba(91,141,246,0.5); background: rgba(91,141,246,0.08); }
+.dc:active { transform: scale(0.93); }
+.dc.z { border-color: rgba(29,158,117,0.18); }
+.dc.z:hover { border-color: rgba(29,158,117,0.5); background: rgba(29,158,117,0.08); }
+.di { font-size: 16px; display: block; margin-bottom: 2px; }
+.dn { font-size: 9px; color: #777; line-height: 1.1; }
+.dg-lbl { font-size: 9px; font-weight: 600; }
+.dg-lbl.alc { color: #5B8DF6; }
+.dg-lbl.zer { color: #1D9E75; }
+.dg-lbl.spe { color: #EF9F27; }
+.bar-bg { background: rgba(255,255,255,0.08); border-radius: 5px; height: 8px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 5px; transition: width 0.35s, background 0.35s; background: #5B8DF6; }
+.bar-fill.w { background: #EF9F27; }
+.bar-fill.o { background: #E24B4A; }
+.log-list { overflow-y: auto; max-height: 110px; margin-bottom: 8px; }
+.log-item { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 12px; }
+.rm { background: none; border: none; color: #E24B4A; cursor: pointer; font-size: 14px; padding: 0 3px; }
+.stat-g { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+.sc { background: rgba(255,255,255,0.05); border-radius: 11px; padding: 11px; border: 1px solid rgba(255,255,255,0.08); }
+.sc .v { font-size: 20px; font-weight: 700; color: #5B8DF6; }
+.sc .l { font-size: 11px; color: #777; margin-top: 2px; }
+.bn { font-size: 11px; color: #555; text-align: center; line-height: 1.4; margin-top: 8px; }
+.div { height: 1px; background: rgba(255,255,255,0.06); margin: 8px 0; }
+.mt8 { margin-top: 8px; }
+.mb8 { margin-bottom: 8px; }
+.dose-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.75); z-index: 20; align-items: flex-end; flex-direction: column; justify-content: flex-end; }
+.dose-overlay.open { display: flex; }
+.dose-sheet { background: #13141f; border-radius: 20px 20px 0 0; border: 1px solid rgba(255,255,255,0.1); padding: 20px 18px 28px; width: 100%; max-width: 390px; margin: 0 auto; }
+.dose-title { font-size: 16px; font-weight: 600; color: #f0f0f0; margin-bottom: 4px; }
+.dose-sub { font-size: 12px; color: #888; margin-bottom: 16px; line-height: 1.4; }
+.dose-opts { display: grid; gap: 8px; }
+.dose-opt { padding: 12px 14px; border-radius: 11px; border: 1.5px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.04); cursor: pointer; font-family: inherit; transition: all 0.12s; text-align: left; }
+.dose-opt:hover { border-color: rgba(239,159,39,0.5); background: rgba(239,159,39,0.08); }
+.dose-opt-name { font-size: 14px; color: #e0e0e0; font-weight: 500; }
+.dose-opt-risk { font-size: 11px; margin-top: 2px; }
+.risk-low { color: #6ddab5; }
+.risk-mid { color: #f0c97a; }
+.risk-high { color: #f08080; }
+.risk-xh { color: #ff5555; font-weight: 600; }
+.dose-cancel { width: 100%; margin-top: 10px; padding: 12px; border-radius: 11px; border: 1px solid rgba(255,255,255,0.1); background: none; color: #888; font-family: inherit; cursor: pointer; font-size: 14px; }
+.dose-cancel:hover { background: rgba(255,255,255,0.06); }
+</style>
+</head>
+<body>
+<div class="nb-phone" id="app">
+<button class="lang-btn" onclick="tgLang()">EN</button>
+
+<div class="nb-screen active" id="s0">
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;">
+    <div style="font-size:42px;text-align:center;margin-bottom:8px;">🌙</div>
+    <div style="text-align:center;margin-bottom:24px;">
+      <div class="nb-logo">Night<span>Balance</span></div>
+      <div style="font-size:13px;color:#666;margin-top:3px;" id="t-tag">Tu copiloto para las noches de viernes</div>
+    </div>
+    <div class="hero-title" style="text-align:center;" id="t-hero">Sal más, <em>aguanta mejor</em></div>
+    <div style="font-size:13px;color:#666;margin-top:10px;text-align:center;line-height:1.5;" id="t-sub">Sin sermones. Sin juicios. Ciencia + reducción de daños + humor.</div>
+    <div style="font-size:11px;color:#444;text-align:center;margin-top:8px;font-style:italic;" id="t-home-wink">Creado por una enfermera. Con criterio y poca paciencia para los moralistas.</div>
+  </div>
+  <div>
+    <button class="nb-btn btn-p mb8" id="t-start" onclick="go(1)">Calcular mi límite de esta noche</button>
+    <button class="nb-btn btn-g mb8" id="t-gotrack" onclick="go(3)">Ya tengo límite, quiero trackear</button>
+    <div class="bn" id="t-note">Basado en tasa eliminación alcohol (OMS). No sustituye consejo médico.</div>
+  </div>
+</div>
+
+<div class="nb-screen" id="s1">
+  <div class="nb-hdr">
+    <button class="back" onclick="go(0)">←</button>
+    <div class="htitle" id="t-qt">Tu perfil de esta noche</div>
+  </div>
+  <div class="step-dots">
+    <div class="dot on" id="d0"></div><div class="dot" id="d1"></div>
+    <div class="dot" id="d2"></div><div class="dot" id="d3"></div><div class="dot" id="d4"></div>
+  </div>
+  <div id="qs0">
+    <div class="qlbl">Paso 1 de 5</div>
+    <div class="qtitle" id="t-q0">¿Cuánto pesas?</div>
+    <div class="qsub" id="t-q0s">Solo lo sabe el algoritmo. Y tú. Y ya.</div>
+    <div style="margin-bottom:18px;">
+      <div class="sv"><span id="pv">70</span> <small>kg</small></div>
+      <input type="range" min="40" max="150" value="70" step="1" oninput="pv.textContent=this.value;U.peso=+this.value">
+    </div>
+    <div class="spacer"></div>
+    <button class="nb-btn btn-p" onclick="ns(0)">Siguiente →</button>
+  </div>
+  <div id="qs1" style="display:none">
+    <div class="qlbl">Paso 2 de 5</div>
+    <div class="qtitle" id="t-q1">Sexo biológico</div>
+    <div class="qsub" id="t-q1s">Afecta a cómo procesas el alcohol y las sustancias. La biología no negocia.</div>
+    <div class="opts c2">
+      <button class="opt sel" id="om" onclick="setSexo('M')">♂ Hombre</button>
+      <button class="opt" id="of" onclick="setSexo('F')">♀ Mujer</button>
+    </div>
+    <div class="spacer"></div>
+    <button class="nb-btn btn-p" onclick="ns(1)">Siguiente →</button>
+  </div>
+  <div id="qs2" style="display:none">
+    <div class="qlbl">Paso 3 de 5</div>
+    <div class="qtitle" id="t-q2">¿Cómo llevas el estómago?</div>
+    <div class="qsub" id="t-q2s">Esta sí que cambia las reglas del juego.</div>
+    <div class="opts">
+      <button class="opt" id="cn" onclick="setCom('n')">🚨 En ayunas — modo difícil activado</button>
+      <button class="opt sel" id="ca" onclick="setCom('a')">🥗 Algo ligero (tapas, snacks)</button>
+      <button class="opt" id="cb" onclick="setCom('b')">🍝 Bien comido (cena de las de verdad)</button>
+    </div>
+    <div class="spacer"></div>
+    <button class="nb-btn btn-p" onclick="ns(2)">Siguiente →</button>
+  </div>
+  <div id="qs3" style="display:none">
+    <div class="qlbl">Paso 4 de 5</div>
+    <div class="qtitle" id="t-q3">¿Cuántas horas de marcha?</div>
+    <div class="qsub" id="t-q3s">Sé honesto/a. El algoritmo no te juzga. Nosotros tampoco.</div>
+    <div style="margin-bottom:18px;">
+      <div class="sv"><span id="hv">4</span> <small id="t-hu">horas</small></div>
+      <input type="range" min="1" max="12" value="4" step="1" oninput="hv.textContent=this.value;U.horas=+this.value">
+    </div>
+    <div class="spacer"></div>
+    <button class="nb-btn btn-p" onclick="ns(3)">Siguiente →</button>
+  </div>
+  <div id="qs4" style="display:none">
+    <div class="qlbl">Paso 5 de 5</div>
+    <div class="qtitle" id="t-q4">¿Desde dónde sales esta noche?</div>
+    <div class="qsub" id="t-q4s">No te vamos a registrar. No somos terraplanistas. Solo es para el número de emergencias de tu país.</div>
+    <select id="country-sel" onchange="U.pais=this.value;updEmergency()">
+      <option value="ES">🇪🇸 España</option>
+      <option value="MX">🇲🇽 México</option>
+      <option value="AR">🇦🇷 Argentina</option>
+      <option value="CO">🇨🇴 Colombia</option>
+      <option value="CL">🇨🇱 Chile</option>
+      <option value="PE">🇵🇪 Perú</option>
+      <option value="DE">🇩🇪 Alemania</option>
+      <option value="FR">🇫🇷 Francia</option>
+      <option value="IT">🇮🇹 Italia</option>
+      <option value="PT">🇵🇹 Portugal</option>
+      <option value="GB">🇬🇧 Reino Unido</option>
+      <option value="NL">🇳🇱 Países Bajos</option>
+      <option value="BE">🇧🇪 Bélgica</option>
+      <option value="CH">🇨🇭 Suiza</option>
+      <option value="US">🇺🇸 USA</option>
+      <option value="CA">🇨🇦 Canadá</option>
+      <option value="AU">🇦🇺 Australia</option>
+      <option value="OTHER">🌍 Otro país</option>
+    </select>
+    <div style="font-size:12px;color:#5B8DF6;text-align:center;padding:6px 0;" id="t-emergency-preview">Emergencias: 112</div>
+    <div class="spacer"></div>
+    <button class="nb-btn btn-p" onclick="calc()">Ver mi límite ✓</button>
+  </div>
+</div>
+
+<div class="nb-screen" id="s2">
+  <div class="nb-hdr">
+    <button class="back" onclick="go(1)">←</button>
+    <div class="htitle" id="t-rt">Tu límite de esta noche</div>
+  </div>
+  <div class="res-circle">
+    <div class="res-n" id="rc">5</div>
+    <div class="res-l" id="t-ru">copas aprox.</div>
+  </div>
+  <div style="text-align:center;margin-bottom:14px;">
+    <div class="badge b-ok" id="rbadge" style="margin-bottom:6px;">Zona segura</div>
+    <div style="color:#666;font-size:13px;" id="rmsg">Tu límite personalizado</div>
+  </div>
+  <div class="rcard"><div class="rcard-t" id="t-r1">Alcohol máximo estimado</div><div class="rcard-v" id="rg">50g de alcohol puro</div></div>
+  <div class="rcard"><div class="rcard-t" id="t-r2">Eliminación por hora</div><div class="rcard-v" id="re">~8-10g / hora</div></div>
+  <div class="tbox blue" id="rtip">💧 Alterna con agua cada 2 consumiciones.</div>
+  <div class="spacer"></div>
+  <button class="nb-btn btn-p mb8" onclick="startT()">Empezar a trackear 🎉</button>
+  <div class="bn" id="t-disc">Estimación orientativa. La biología es caprichosa. Si te encuentras mal, para.</div>
+</div>
+
+<div class="nb-screen" id="s3">
+  <div class="nb-hdr">
+    <button class="back" onclick="go(0)">←</button>
+    <div class="htitle" id="t-tt">Tracker en vivo</div>
+    <div style="margin-left:auto;font-size:12px;color:#666;"><span id="tc">0</span>/<span id="tlim">5</span></div>
+  </div>
+  <div style="margin-bottom:10px;">
+    <div style="display:flex;justify-content:space-between;font-size:11px;color:#555;margin-bottom:4px;">
+      <span id="t-tl">Consumo acumulado</span><span><span id="tpct">0</span>%</span>
+    </div>
+    <div class="bar-bg"><div class="bar-fill" id="tbar" style="width:0%"></div></div>
+  </div>
+  <div class="badge b-ok" id="tsbadge" style="margin-bottom:8px;">En forma</div>
+  <div class="tbox amber" id="pasti-alert" style="display:none;font-size:12px;"></div>
+  <div class="sec-lbl" id="t-sa">Bebidas con alcohol</div>
+  <div class="dg5">
+    <button class="dc" onclick="aD('Caña',8,'🍺')"><span class="di">🍺</span><div class="dn">Caña</div><div class="dg-lbl alc">8g</div></button>
+    <button class="dc" onclick="aD('Vino',12,'🍷')"><span class="di">🍷</span><div class="dn">Vino</div><div class="dg-lbl alc">12g</div></button>
+    <button class="dc" onclick="aD('Cubata',16,'🥃')"><span class="di">🥃</span><div class="dn">Cubata</div><div class="dg-lbl alc">16g</div></button>
+    <button class="dc" onclick="aD('Chupito',10,'🥂')"><span class="di">🥂</span><div class="dn">Chupito</div><div class="dg-lbl alc">10g</div></button>
+    <button class="dc" onclick="aD('Botellín',12,'🍻')"><span class="di">🍻</span><div class="dn">Botellín</div><div class="dg-lbl alc">12g</div></button>
+    <button class="dc" onclick="aD('Cóctel',18,'🍹')"><span class="di">🍹</span><div class="dn">Cóctel</div><div class="dg-lbl alc">18g</div></button>
+    <button class="dc" onclick="aD('Cava',10,'🥂')"><span class="di">🥂</span><div class="dn">Cava</div><div class="dg-lbl alc">10g</div></button>
+    <button class="dc" onclick="aD('Sangría',14,'🍷')"><span class="di">🍷</span><div class="dn">Sangría</div><div class="dg-lbl alc">14g</div></button>
+    <button class="dc" onclick="aD('Vermut',10,'🫙')"><span class="di">🫙</span><div class="dn">Vermut</div><div class="dg-lbl alc">10g</div></button>
+    <button class="dc" onclick="aD('Fernet',14,'🥃')"><span class="di">🥃</span><div class="dn">Fernet</div><div class="dg-lbl alc">14g</div></button>
+  </div>
+  <div class="sec-lbl" id="t-sz">Sin alcohol / hidratación</div>
+  <div class="dg">
+    <button class="dc z" onclick="aD('Agua',0,'💧')"><span class="di">💧</span><div class="dn">Agua</div><div class="dg-lbl zer">0g</div></button>
+    <button class="dc z" onclick="aD('Refresco',0,'🥤')"><span class="di">🥤</span><div class="dn">Refresco</div><div class="dg-lbl zer">0g</div></button>
+    <button class="dc z" onclick="aEnergy()"><span class="di">⚡</span><div class="dn">Energética</div><div class="dg-lbl spe">caf.</div></button>
+    <button class="dc z" onclick="aD('Zumo',0,'🍊')"><span class="di">🍊</span><div class="dn">Zumo</div><div class="dg-lbl zer">0g</div></button>
+  </div>
+  <div class="sec-lbl" id="t-ss">Otras sustancias — reducción de daños</div>
+  <div class="dg5">
+    <button class="dc" style="border-color:rgba(239,159,39,0.25);" onclick="openDose('mdma')"><span class="di">💊</span><div class="dn">MDMA</div><div class="dg-lbl spe">dosis</div></button>
+    <button class="dc" style="border-color:rgba(239,159,39,0.25);" onclick="openDose('coca')"><span class="di">🌿</span><div class="dn">Cocaína</div><div class="dg-lbl spe">dosis</div></button>
+    <button class="dc" style="border-color:rgba(239,159,39,0.25);" onclick="openDose('cannabis')"><span class="di">🍃</span><div class="dn">Cannabis</div><div class="dg-lbl spe">dosis</div></button>
+    <button class="dc" style="border-color:rgba(239,159,39,0.25);" onclick="openDose('popper')"><span class="di">💨</span><div class="dn">Popper</div><div class="dg-lbl spe">dosis</div></button>
+    <button class="dc" style="border-color:rgba(226,75,74,0.4);" onclick="openDose('fentanilo')"><span class="di">🚨</span><div class="dn">Fentanilo</div><div class="dg-lbl" style="color:#f08080;">ALERTA</div></button>
+  </div>
+  <div class="div"></div>
+  <div class="qlbl mb8" id="t-log">Registro</div>
+  <div class="log-list" id="log-list"><div style="color:#555;font-size:12px;text-align:center;padding:10px 0;" id="t-empty">Nada aún. La noche es joven.</div></div>
+  <button class="nb-btn btn-p" onclick="go(4)">Ver resumen →</button>
+</div>
+
+<div class="nb-screen" id="s4">
+  <div class="nb-hdr">
+    <button class="back" onclick="go(3)">←</button>
+    <div class="htitle" id="t-st">Resumen de la noche</div>
+  </div>
+  <div class="stat-g">
+    <div class="sc"><div class="v" id="sd">0</div><div class="l" id="t-sd">consumiciones</div></div>
+    <div class="sc"><div class="v" id="sg">0g</div><div class="l" id="t-sg">alcohol total</div></div>
+    <div class="sc"><div class="v" id="sp">0%</div><div class="l" id="t-sp">del límite</div></div>
+    <div class="sc"><div class="v" id="se">0h</div><div class="l" id="t-se">para eliminar</div></div>
+  </div>
+  <div class="tbox green" id="sverdict">Buena noche 🎉</div>
+  <div id="drive-box" class="tbox green" style="margin-bottom:8px;">
+    <div style="font-weight:600;margin-bottom:3px;" id="t-drive">🚗 ¿Puedo conducir?</div>
+    <div id="drive-msg" style="font-size:12px;"></div>
+    <div style="font-size:11px;color:#5B8DF6;margin-top:4px;cursor:pointer;text-decoration:underline;" onclick="driveInfo()" id="t-dlink">Consulta los límites de tu país →</div>
+  </div>
+  <div class="tbox blue" id="st1">💧 Bebe 500ml de agua antes de dormir</div>
+  <div class="tbox blue" id="st2">🍌 Un plátano repone el potasio. La resaca también lo sabe.</div>
+  <div class="tbox amber" id="st-pasti" style="display:none;font-size:12px;"></div>
+  <div class="spacer"></div>
+  <button class="nb-btn btn-p mb8" onclick="reset()">Nueva noche 🌙</button>
+  <div class="bn" id="t-sn">Si alguien se encuentra muy mal, llama al 112.</div>
+</div>
+
+<div class="dose-overlay" id="dose-modal">
+  <div class="dose-sheet">
+    <div class="dose-title" id="dm-title">MDMA — elige dosis</div>
+    <div class="dose-sub" id="dm-sub">Elige la cantidad más aproximada</div>
+    <div class="dose-opts" id="dm-opts"></div>
+    <button class="dose-cancel" onclick="closeDose()" id="t-cancel">Cancelar</button>
+  </div>
+</div>
+</div>
+
+<script>
+let lang='es';
+let U={peso:70,sexo:'M',comida:'a',horas:4,pais:'ES'};
+let limG=50,limC=5,log=[],hasPasti=false,eCnt=0;
+
+const EMERGENCY={ES:'112',MX:'911',AR:'107',CO:'123',CL:'131',PE:'116',DE:'112',FR:'15',IT:'118',PT:'112',GB:'999',NL:'112',BE:'112',CH:'144',US:'911',CA:'911',AU:'000',OTHER:'112'};
+const DRIVE_LIMITS={ES:{lim:0.5,label:'España'},MX:{lim:0.8,label:'México'},AR:{lim:0.5,label:'Argentina'},CO:{lim:0.4,label:'Colombia'},CL:{lim:0.5,label:'Chile'},PE:{lim:0.5,label:'Perú'},DE:{lim:0.5,label:'Alemania'},FR:{lim:0.5,label:'Francia'},IT:{lim:0.5,label:'Italia'},PT:{lim:0.5,label:'Portugal'},GB:{lim:0.8,label:'UK'},NL:{lim:0.5,label:'Países Bajos'},BE:{lim:0.5,label:'Bélgica'},CH:{lim:0.5,label:'Suiza'},US:{lim:0.8,label:'USA'},CA:{lim:0.8,label:'Canadá'},AU:{lim:0.5,label:'Australia'},OTHER:{lim:0.5,label:'tu país'}};
+
+const DRUGS={
+  mdma:{es:{name:'MDMA / Pastilla',warn:'MDMA: Bebe 200-500ml/h pero NO más (riesgo hiponatremia). Descansa, refresca. Evita combinar con alcohol.'},en:{name:'MDMA / Pill',warn:'MDMA: Drink 200-500ml/h but NOT more. Rest, cool down. Avoid mixing with alcohol.'},doses:{es:[{n:'1/4 de pastilla',r:'Riesgo moderado',rc:'risk-mid'},{n:'1/2 pastilla',r:'Riesgo alto — potencia efectos del alcohol',rc:'risk-high'},{n:'1 pastilla',r:'Riesgo muy alto',rc:'risk-xh'},{n:'Re-dosis / repetido',r:'Riesgo extremo',rc:'risk-xh'}],en:[{n:'1/4 pill',r:'Moderate risk',rc:'risk-mid'},{n:'1/2 pill',r:'High risk',rc:'risk-high'},{n:'1 pill',r:'Very high risk',rc:'risk-xh'},{n:'Re-dose',r:'Extreme risk',rc:'risk-xh'}]}},
+  coca:{es:{name:'Cocaína',warn:'Cocaína + alcohol = cocaetileno. Muy tóxico para el corazón. Mantente hidratado.'},en:{name:'Cocaine',warn:'Cocaine + alcohol = cocaethylene. Very toxic to the heart. Stay hydrated.'},doses:{es:[{n:'Toque / media raya',r:'Riesgo moderado',rc:'risk-mid'},{n:'1 raya',r:'Riesgo alto con alcohol',rc:'risk-high'},{n:'2+ rayas',r:'Riesgo muy alto — cardiotóxico',rc:'risk-xh'}],en:[{n:'Small bump',r:'Moderate risk',rc:'risk-mid'},{n:'1 line',r:'High risk',rc:'risk-high'},{n:'2+ lines',r:'Very high risk',rc:'risk-xh'}]}},
+  cannabis:{es:{name:'Cannabis',warn:'Cannabis + alcohol potencia efectos. Si te mareas: siéntate, aire fresco, agua. No te quedes solo/a.'},en:{name:'Cannabis',warn:'Cannabis + alcohol amplifies both effects. If dizzy: sit, fresh air, water.'},doses:{es:[{n:'1-2 caladas',r:'Riesgo bajo-moderado',rc:'risk-low'},{n:'Medio porro',r:'Riesgo moderado',rc:'risk-mid'},{n:'Porro completo',r:'Riesgo alto con alcohol',rc:'risk-high'},{n:'Comestible',r:'Riesgo alto — efecto retardado e impredecible',rc:'risk-xh'}],en:[{n:'1-2 puffs',r:'Low-moderate risk',rc:'risk-low'},{n:'Half joint',r:'Moderate risk',rc:'risk-mid'},{n:'Full joint',r:'High risk',rc:'risk-high'},{n:'Edible',r:'High risk — delayed, unpredictable',rc:'risk-xh'}]}},
+  popper:{es:{name:'Popper',warn:'Poppers: NUNCA mezclar con Viagra/sildenafilo — hipotensión grave. Evitar con anemia o cardiopatía.'},en:{name:'Poppers',warn:'Poppers: NEVER mix with Viagra/sildenafil — severe hypotension.'},doses:{es:[{n:'Inhalación puntual (1-2)',r:'Riesgo bajo (sin Viagra, sin cardiopatía)',rc:'risk-low'},{n:'Uso repetido (3-5)',r:'Riesgo moderado',rc:'risk-mid'},{n:'Uso intensivo',r:'Riesgo alto — metahemoglobinemia posible',rc:'risk-high'}],en:[{n:'Occasional (1-2)',r:'Low risk',rc:'risk-low'},{n:'Repeated (3-5)',r:'Moderate risk',rc:'risk-mid'},{n:'Heavy use',r:'High risk — methemoglobinemia possible',rc:'risk-high'}]}},
+  fentanilo:{es:{name:'Fentanilo / Heroína',warn:'🚨 EMERGENCIA POTENCIAL. Fentanilo es 100x más potente que la morfina. NUNCA solo/a. Tener naloxona disponible.'},en:{name:'Fentanyl / Heroin',warn:'🚨 POTENTIAL EMERGENCY. Fentanyl is 100x stronger than morphine. NEVER alone. Have naloxone available.'},doses:{es:[{n:'Cualquier cantidad',r:'⚠ RIESGO EXTREMO — dosis letal impredecible',rc:'risk-xh'},{n:'Combinado con otras sustancias',r:'⚠ MORTAL — depresión respiratoria severa',rc:'risk-xh'}],en:[{n:'Any amount',r:'⚠ EXTREME RISK — lethal dose unpredictable',rc:'risk-xh'},{n:'Combined with other substances',r:'⚠ DEADLY — respiratory depression',rc:'risk-xh'}]}}
+};
+
+let curDrug=null;
+
+function updEmergency(){const em=EMERGENCY[U.pais]||'112';document.getElementById('t-emergency-preview').textContent=(lang==='es'?'Emergencias: ':'Emergency: ')+em;}
+function openDose(drug){curDrug=drug;const d=DRUGS[drug];document.getElementById('dm-title').textContent=d[lang].name+' — '+(lang==='es'?'elige dosis':'choose dose');document.getElementById('dm-sub').textContent=lang==='es'?'Elige la cantidad más aproximada':'Choose the closest amount';document.getElementById('dm-opts').innerHTML=DRUGS[drug].doses[lang].map((o,i)=>`<button class="dose-opt" onclick="confirmDose(${i})"><div class="dose-opt-name">${o.n}</div><div class="dose-opt-risk ${o.rc}">${o.r}</div></button>`).join('');document.getElementById('t-cancel').textContent=lang==='es'?'Cancelar':'Cancel';document.getElementById('dose-modal').classList.add('open');}
+function confirmDose(i){const d=DRUGS[curDrug];const dose=d.doses[lang][i];hasPasti=true;log.push({name:d[lang].name+' ('+dose.n+')',g:0,icon:curDrug==='fentanilo'?'🚨':curDrug==='popper'?'💨':'💊',type:'pasti',time:now()});const al=document.getElementById('pasti-alert');al.textContent='⚠ '+d[lang].warn;al.style.display='block';if(curDrug==='fentanilo'){const em=EMERGENCY[U.pais]||'112';setTimeout(()=>alert((lang==='es'?'🚨 FENTANILO / HEROÍNA\n\nNunca solo/a.\nSíntomas: labios azules, pérdida de consciencia, respiración lenta.\n\nLLAMA AL ':'🚨 FENTANYL / HEROIN\n\nNever alone.\nSymptoms: blue lips, loss of consciousness, slow breathing.\n\nCALL ')+em+(lang==='es'?' INMEDIATAMENTE.\nNaloxona salva vidas.':' IMMEDIATELY.\nNaloxone saves lives.')),50);}closeDose();renderLog();}
+function closeDose(){document.getElementById('dose-modal').classList.remove('open');curDrug=null;}
+function go(n){document.querySelectorAll('.nb-screen').forEach(s=>s.classList.remove('active'));document.getElementById('s'+n).classList.add('active');if(n===4)updateSum();}
+function ns(s){document.getElementById('qs'+s).style.display='none';document.getElementById('qs'+(s+1)).style.display='';updDots(s+1);}
+function updDots(a){for(let i=0;i<5;i++)document.getElementById('d'+i).className='dot'+(i===a?' on':i<a?' done':'');}
+function setSexo(v){U.sexo=v;document.getElementById('om').className='opt'+(v==='M'?' sel':'');document.getElementById('of').className='opt'+(v==='F'?' sel':'');}
+function setCom(v){U.comida=v;['n','a','b'].forEach(c=>document.getElementById('c'+c).className='opt'+(v===c?' sel':''));}
+function calc(){const f=U.sexo==='M'?0.68:0.55;const pa=U.peso*f*1000;const eh=U.sexo==='M'?10:8;const cm=U.comida==='n'?0.75:U.comida==='a'?0.88:1.0;limG=Math.round(Math.round((((U.sexo==='M'?0.06:0.05)*pa)/100)+(eh*U.horas*0.7))*cm);limC=Math.max(1,Math.round(limG/11));document.getElementById('rc').textContent=limC;document.getElementById('rg').textContent=limG+'g '+(lang==='es'?'de alcohol puro':'of pure alcohol');document.getElementById('re').textContent=(U.sexo==='M'?'~10':'~8')+'g / '+(lang==='es'?'hora':'hour');document.getElementById('tlim').textContent=limC;const b=document.getElementById('rbadge');if(limC<=3){b.textContent=lang==='es'?'Noche tranquila':'Easy night';b.className='badge b-w';}else{b.textContent=lang==='es'?'Zona segura':'Safe zone';b.className='badge b-ok';}document.getElementById('rmsg').textContent=lang==='es'?'Tu límite personalizado para esta noche':'Your personalized limit for tonight';go(2);}
+function startT(){log=[];hasPasti=false;eCnt=0;renderLog();updBar();go(3);}
+function aD(n,g,ic){log.push({name:n,g,icon:ic,type:'drink',time:now()});renderLog();updBar();}
+function aEnergy(){eCnt++;log.push({name:lang==='es'?'Energética':'Energy drink',g:0,icon:'⚡',type:'energy',time:now()});renderLog();updBar();if(eCnt>=2)alert(lang==='es'?'⚡ '+eCnt+' energéticas ya. La cafeína enmascara la borrachera. Bebe también agua.':'⚡ '+eCnt+' energy drinks. Caffeine masks intoxication. Drink water too.');}
+function rmItem(i){log.splice(i,1);hasPasti=log.some(d=>d.type==='pasti');if(!hasPasti)document.getElementById('pasti-alert').style.display='none';renderLog();updBar();}
+function renderLog(){const el=document.getElementById('log-list');if(!log.length){el.innerHTML='<div style="color:#555;font-size:12px;text-align:center;padding:10px 0;">'+(lang==='es'?'Nada aún. La noche es joven.':'Nothing yet. The night is young.')+'</div>';return;}el.innerHTML=[...log].reverse().map((d,ri)=>{const i=log.length-1-ri;const c=d.type==='pasti'?'#EF9F27':d.type==='energy'?'#EF9F27':'#ccc';return`<div class="log-item"><span style="color:${c}">${d.icon} ${d.name}</span><small style="color:#555">${d.g>0?d.g+'g · ':''}${d.time}</small><button class="rm" onclick="rmItem(${i})">×</button></div>`;}).join('');}
+function updBar(){const tot=log.filter(d=>d.type==='drink').reduce((a,d)=>a+d.g,0);const pct=Math.min(Math.round((tot/limG)*100),100);const bar=document.getElementById('tbar');bar.style.width=pct+'%';bar.className='bar-fill'+(pct>=100?' o':pct>=75?' w':'');document.getElementById('tpct').textContent=pct;document.getElementById('tc').textContent=log.filter(d=>d.type==='drink').length;const b=document.getElementById('tsbadge');if(pct>=100){b.textContent=lang==='es'?'⚠ Límite alcanzado':'⚠ Limit reached';b.className='badge b-r';}else if(pct>=75){b.textContent=lang==='es'?'Zona de precaución':'Caution zone';b.className='badge b-w';}else{b.textContent=lang==='es'?'En forma':'In good shape';b.className='badge b-ok';}}
+function updateSum(){const tot=log.filter(d=>d.type==='drink').reduce((a,d)=>a+d.g,0);const pct=Math.round((tot/limG)*100);const eh=Math.ceil(tot/9);document.getElementById('sd').textContent=log.filter(d=>d.type==='drink').length;document.getElementById('sg').textContent=tot+'g';document.getElementById('sp').textContent=pct+'%';document.getElementById('se').textContent=eh+'h';const v=document.getElementById('sverdict');if(pct<=70){v.textContent=lang==='es'?'🎉 Noche controlada. Eso es NightBalance.':'🎉 Night under control. That\'s NightBalance.';v.className='tbox green';}else if(pct<=100){v.textContent=lang==='es'?'⚡ Llegaste al límite pero te mantuviste. Chapeau.':'⚡ Pushed it but held together. Well done.';v.className='tbox amber';}else{v.textContent=lang==='es'?'⚠ Un poco pasado. El hígado toma nota. Agua, agua, agua.':'⚠ A bit over. Your liver is taking notes. Water, water, water.';v.className='tbox red';}const bac=(tot*100)/(U.peso*(U.sexo==='M'?0.68:0.55)*1000);const country=DRIVE_LIMITS[U.pais]||DRIVE_LIMITS['OTHER'];const lim=country.lim;const db=document.getElementById('drive-box'),dm=document.getElementById('drive-msg');document.getElementById('t-drive').textContent=lang==='es'?'🚗 ¿Puedo conducir?':'🚗 Can I drive?';if(bac<=0.005){db.className='tbox green';dm.textContent=lang==='es'?'Sin alcohol significativo. Verde total.':'No significant alcohol. All clear.';}else if(bac<lim*0.6){db.className='tbox green';dm.textContent='BAC ~'+bac.toFixed(2)+'g/L — '+(lang==='es'?'probablemente bajo el límite en '+country.label+'.':'likely under the limit in '+country.label+'.');}else if(bac<=lim){db.className='tbox amber';dm.textContent='BAC ~'+bac.toFixed(2)+'g/L — '+(lang==='es'?'en el límite en '+country.label+' ('+lim+'g/L). Espera al menos '+Math.ceil(eh*0.5)+'h más.':'at the limit in '+country.label+' ('+lim+'g/L). Wait at least '+Math.ceil(eh*0.5)+'h more.');}else{db.className='tbox red';dm.textContent='BAC ~'+bac.toFixed(2)+'g/L — '+(lang==='es'?'ILEGAL en '+country.label+'. No conduzcas. Taxi o quédate.':'ILLEGAL in '+country.label+'. Do NOT drive. Get a taxi.');}const em=EMERGENCY[U.pais]||'112';document.getElementById('t-sn').textContent=lang==='es'?'Si alguien se encuentra muy mal, llama al '+em+'.':'If someone is very unwell, call '+em+'.';document.getElementById('t-dlink').textContent=lang==='es'?'Consulta los límites de tu país →':'Check the limits in your country →';const sp=document.getElementById('st-pasti');if(log.some(d=>d.type==='pasti')){sp.style.display='block';sp.textContent=lang==='es'?'⚠ Llevabas otras sustancias. Descansa bien, mantente hidratado/a. Si algo no va bien, llama al '+em+' sin dudarlo.':'⚠ You had other substances. Rest well, stay hydrated. If anything feels wrong, call '+em+'.';}else sp.style.display='none';}
+function driveInfo(){const country=DRIVE_LIMITS[U.pais]||DRIVE_LIMITS['OTHER'];alert(lang==='es'?'Límites legales al volante (BAC g/L):\n🇪🇸 España: 0.5 (noveles: 0.3)\n🇩🇪 Alemania: 0.5\n🇫🇷 Francia: 0.5 (noveles: 0.2)\n🇬🇧 UK: 0.8\n🇮🇹 Italia: 0.5\n🇵🇹 Portugal: 0.5\n🇺🇸 USA: 0.8\n🇲🇽 México: 0.8\n🇦🇷 Argentina: 0.5\n\nTu país ('+country.label+'): '+country.lim+' g/L':'Legal BAC limits (g/L):\n🇪🇸 Spain: 0.5\n🇩🇪 Germany: 0.5\n🇫🇷 France: 0.5\n🇬🇧 UK: 0.8\n🇮🇹 Italy: 0.5\n🇵🇹 Portugal: 0.5\n🇺🇸 USA: 0.8\n🇲🇽 Mexico: 0.8\n🇦🇷 Argentina: 0.5\n\nYour country ('+country.label+'): '+country.lim+' g/L');}
+function reset(){log=[];hasPasti=false;eCnt=0;limG=50;limC=5;U={peso:70,sexo:'M',comida:'a',horas:4,pais:'ES'};['qs1','qs2','qs3','qs4'].forEach(id=>document.getElementById(id).style.display='none');document.getElementById('qs0').style.display='';updDots(0);document.getElementById('pasti-alert').style.display='none';document.getElementById('pv').textContent='70';document.getElementById('hv').textContent='4';document.getElementById('country-sel').value='ES';document.getElementById('t-emergency-preview').textContent=(lang==='es'?'Emergencias: ':'Emergency: ')+'112';setSexo('M');setCom('a');go(0);}
+function tgLang(){lang=lang==='es'?'en':'es';document.querySelector('.lang-btn').textContent=lang==='es'?'EN':'ES';applyLang();}
+function applyLang(){const es=lang==='es';document.getElementById('t-tag').textContent=es?'Tu copiloto para las noches de viernes':'Your Friday night co-pilot';document.getElementById('t-hero').innerHTML=es?'Sal más, <em>aguanta mejor</em>':'Go out more, <em>last longer</em>';document.getElementById('t-sub').textContent=es?'Sin sermones. Sin juicios. Ciencia + reducción de daños + humor.':'No lectures. No judgment. Science + harm reduction + humor.';document.getElementById('t-home-wink').textContent=es?'Creado por una enfermera. Con criterio y poca paciencia para los moralistas.':'Created by a nurse. With expertise and little patience for moralists.';document.getElementById('t-start').textContent=es?'Calcular mi límite de esta noche':'Calculate my limit for tonight';document.getElementById('t-gotrack').textContent=es?'Ya tengo límite, quiero trackear':'I know my limit, start tracking';document.getElementById('t-note').textContent=es?'Basado en tasa eliminación alcohol (OMS). No sustituye consejo médico.':'Based on WHO alcohol elimination rate. Not medical advice.';document.getElementById('t-qt').textContent=es?'Tu perfil de esta noche':'Your profile for tonight';document.getElementById('t-q0').textContent=es?'¿Cuánto pesas?':'How much do you weigh?';document.getElementById('t-q0s').textContent=es?'Solo lo sabe el algoritmo. Y tú. Y ya.':'Only the algorithm knows. And you. That\'s it.';document.getElementById('t-q1').textContent=es?'Sexo biológico':'Biological sex';document.getElementById('t-q1s').textContent=es?'Afecta a cómo procesas el alcohol y las sustancias. La biología no negocia.':'Affects how you process substances. Biology doesn\'t negotiate.';document.getElementById('t-q2').textContent=es?'¿Cómo llevas el estómago?':'How is your stomach?';document.getElementById('t-q2s').textContent=es?'Esta sí que cambia las reglas del juego.':'This one really changes the rules.';document.getElementById('t-q3').textContent=es?'¿Cuántas horas de marcha?':'How many hours out?';document.getElementById('t-q3s').textContent=es?'Sé honesto/a. El algoritmo no te juzga. Nosotros tampoco.':'Be honest. The algorithm won\'t judge you. Neither will we.';document.getElementById('t-q4').textContent=es?'¿Desde dónde sales esta noche?':'Where are you going out tonight?';document.getElementById('t-q4s').textContent=es?'No te vamos a registrar. No somos terraplanistas. Solo es para el número de emergencias de tu país.':'We\'re not tracking you. Not conspiracy theorists. Just need your emergency number.';document.getElementById('t-hu').textContent=es?'horas':'hours';document.getElementById('t-rt').textContent=es?'Tu límite de esta noche':'Your limit for tonight';document.getElementById('t-ru').textContent=es?'copas aprox.':'drinks approx.';document.getElementById('t-r1').textContent=es?'Alcohol máximo estimado':'Estimated max alcohol';document.getElementById('t-r2').textContent=es?'Eliminación por hora':'Elimination rate';document.getElementById('t-disc').textContent=es?'Estimación orientativa. La biología es caprichosa. Si te encuentras mal, para.':'Estimated guidance only. If unwell, stop.';document.getElementById('t-tt').textContent=es?'Tracker en vivo':'Live tracker';document.getElementById('t-tl').textContent=es?'Consumo acumulado':'Accumulated consumption';document.getElementById('t-sa').textContent=es?'Bebidas con alcohol':'Alcoholic drinks';document.getElementById('t-sz').textContent=es?'Sin alcohol / hidratación':'Non-alcoholic / hydration';document.getElementById('t-ss').textContent=es?'Otras sustancias — reducción de daños':'Other substances — harm reduction';document.getElementById('t-log').textContent=es?'Registro':'Log';document.getElementById('t-st').textContent=es?'Resumen de la noche':'Night summary';document.getElementById('t-sd').textContent=es?'consumiciones':'drinks';document.getElementById('t-sg').textContent=es?'alcohol total':'total alcohol';document.getElementById('t-sp').textContent=es?'del límite':'of limit';document.getElementById('t-se').textContent=es?'para eliminar':'to eliminate';updEmergency();}
+function now(){return new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}
+applyLang();
+</script>
+</body>
+</html>
