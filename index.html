@@ -686,6 +686,106 @@
       box-shadow: 0 0 16px rgba(0,255,136,0.2);
     }
 
+    /* ── APP FACTORY ── */
+    #apps { background: var(--bg); }
+
+    .apps-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .apps-counter {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--neon);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .apps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .app-card {
+      background: var(--bg2);
+      border: 1px solid rgba(0,255,136,0.12);
+      border-radius: 16px;
+      padding: 2rem;
+      text-decoration: none;
+      color: var(--white);
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .app-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--neon), var(--agua));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .app-card:hover {
+      border-color: var(--neon);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+
+    .app-card:hover::before { opacity: 1; }
+
+    .app-number {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--neon);
+      letter-spacing: 0.1em;
+      opacity: 0.7;
+    }
+
+    .app-emoji { font-size: 2.2rem; }
+
+    .app-titulo {
+      font-size: 1.05rem;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .app-desc {
+      color: #888;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .app-cta {
+      display: block;
+      text-align: center;
+      background: transparent;
+      color: var(--neon);
+      border: 1px solid rgba(0,255,136,0.5);
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      padding: 0.75rem 1.2rem;
+      border-radius: 8px;
+      margin-top: 0.8rem;
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+
+    .app-card:hover .app-cta {
+      background: rgba(0,255,136,0.08);
+      box-shadow: 0 0 16px rgba(0,255,136,0.2);
+    }
+
     /* ── HISTORIA (BEITA SERIES) ── */
     #historia { background: var(--bg); }
 
@@ -924,6 +1024,7 @@
       <li><a href="#sobre">Sobre mí</a></li>
       <li><a href="#hago">Lo que hago</a></li>
       <li><a href="#productos">Productos</a></li>
+      <li><a href="#apps">Apps</a></li>
       <li><a href="#historia">Mi historia</a></li>
       <li><a href="#contacto">Contacto</a></li>
     </ul>
@@ -1118,8 +1219,30 @@
           <div class="producto-emoji">📝</div>
           <div class="producto-titulo">IA para aprobar tus oposiciones de enfermería</div>
           <div class="producto-desc">Usa la inteligencia artificial para estudiar más inteligente, no más duro. El método que nadie te enseña en la academia.</div>
-          <div class="producto-price">Gratis</div>
-          <div class="producto-cta gratis">Obtener gratis →</div>
+          <div class="producto-price">5 €</div>
+          <div class="producto-cta">Comprar ahora — 5 € →</div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- APP FACTORY -->
+  <section id="apps">
+    <div class="apps-inner">
+      <span class="section-label reveal">// App Factory</span>
+      <h2 class="section-title reveal">100 apps.<br><span style="color:var(--neon)">Van por la 1.</span></h2>
+      <p style="color:#888; max-width:560px; line-height:1.7; font-size:1rem;" class="reveal">Mini-apps de IA construidas desde cero. Sin equipo. Sin inversión. Con ganas y con Claude.</p>
+      <div class="apps-counter reveal">1 / 100 publicadas</div>
+
+      <div class="apps-grid">
+
+        <a class="app-card reveal" href="https://lavozdebeatriz.github.io/nightbalance.html" target="_blank">
+          <div class="app-number">APP #001</div>
+          <div class="app-emoji">🌙</div>
+          <div class="app-titulo">NightBalance</div>
+          <div class="app-desc">Calcula tu compensación por turno de noche como sanitario. Rápido, visual y sin complicaciones.</div>
+          <div class="app-cta">Probar gratis →</div>
         </a>
 
       </div>
