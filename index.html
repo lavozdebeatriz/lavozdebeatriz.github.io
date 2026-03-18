@@ -786,6 +786,83 @@
       box-shadow: 0 0 16px rgba(0,255,136,0.2);
     }
 
+    /* ── CERTIFICACIONES ── */
+    #certs { background: var(--bg2); }
+
+    .certs-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .cert-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+
+    .cert-card {
+      background: #0d0d0d;
+      border: 1px solid rgba(0,255,136,0.25);
+      border-radius: 12px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .cert-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--neon), var(--agua));
+    }
+
+    .cert-card:hover {
+      border-color: rgba(0,255,136,0.55);
+      box-shadow: 0 0 28px rgba(0,255,136,0.1);
+    }
+
+    .cert-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.35rem;
+    }
+
+    .cert-inst {
+      font-size: 0.85rem;
+      color: var(--neon);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 1.4rem;
+    }
+
+    .cert-data {
+      font-family: 'Courier New', monospace;
+      font-size: 0.82rem;
+      color: #aaa;
+      display: grid;
+      gap: 0.45rem;
+    }
+
+    .cert-data span { color: var(--neon); }
+
+    .cert-badge {
+      display: inline-block;
+      margin-top: 1.4rem;
+      background: rgba(0,255,136,0.12);
+      border: 1px solid rgba(0,255,136,0.5);
+      color: var(--neon);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.3rem 1rem;
+      border-radius: 100px;
+    }
+
     /* ── HISTORIA (BEITA SERIES) ── */
     #historia { background: var(--bg); }
 
@@ -1026,6 +1103,7 @@
       <li><a href="#productos">Productos</a></li>
       <li><a href="#apps">Apps</a></li>
       <li><a href="#historia">Mi historia</a></li>
+      <li><a href="#certs">Certificaciones</a></li>
       <li><a href="#contacto">Contacto</a></li>
     </ul>
   </nav>
@@ -1474,6 +1552,28 @@
           <div class="progreso-fill"></div>
         </div>
         <div class="progreso-quote">"4 audiciones. 2 plataformas. 3 idiomas. 1 catarro. 0 excusas." 🎯</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICACIONES -->
+  <section id="certs">
+    <div class="certs-inner">
+      <span class="section-label reveal">// Certificaciones</span>
+      <h2 class="section-title reveal">Formación oficial<br><span style="color:var(--neon)">completada.</span></h2>
+      <div class="cert-grid">
+
+        <div class="cert-card reveal">
+          <div class="cert-title">Claude Code in Action</div>
+          <div class="cert-inst">Anthropic Academy</div>
+          <div class="cert-data">
+            <div><span>FECHA &nbsp;&nbsp;&nbsp;</span> 18 de marzo de 2026</div>
+            <div><span>NOTA &nbsp;&nbsp;&nbsp;&nbsp;</span> 100% — 8 de 8 correctas</div>
+            <div><span>LUGAR &nbsp;&nbsp;&nbsp;</span> Mallorca, España</div>
+          </div>
+          <div class="cert-badge">✓ COMPLETADO</div>
+        </div>
+
       </div>
     </div>
   </section>
