@@ -686,6 +686,140 @@
       box-shadow: 0 0 16px rgba(0,255,136,0.2);
     }
 
+    /* ── MÚSICA BB & CODI ── */
+    #musica { background: var(--bg2); }
+
+    .musica-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .musica-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(0,255,136,0.08);
+      border: 1px solid rgba(0,255,136,0.3);
+      color: var(--neon);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.35rem 1rem;
+      border-radius: 100px;
+      margin-bottom: 1.5rem;
+    }
+
+    .musica-badge span { font-size: 0.9rem; }
+
+    .musica-albums {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .album-card {
+      background: var(--bg);
+      border: 1px solid rgba(0,255,136,0.12);
+      border-radius: 16px;
+      padding: 2rem;
+      color: var(--white);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+
+    .album-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--neon), var(--agua));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .album-card:hover { border-color: var(--neon); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+    .album-card:hover::before { opacity: 1; }
+
+    .album-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--neon);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.7;
+    }
+
+    .album-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .album-desc {
+      color: #888;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .album-tracks {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .album-tracks li {
+      font-size: 0.88rem;
+      color: #aaa;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .album-tracks li::before {
+      content: '▶';
+      font-size: 0.6rem;
+      color: var(--neon);
+      flex-shrink: 0;
+    }
+
+    .album-tracks li a {
+      color: #aaa;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .album-tracks li a:hover { color: var(--neon); }
+
+    .musica-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+      background: rgba(0,255,136,0.08);
+      border: 1px solid rgba(0,255,136,0.3);
+      color: var(--neon);
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 0.5rem 1.2rem;
+      border-radius: 100px;
+      text-decoration: none;
+      align-self: flex-start;
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+
+    .musica-cta:hover {
+      background: rgba(0,255,136,0.15);
+      box-shadow: 0 0 16px rgba(0,255,136,0.2);
+    }
+
     /* ── APP FACTORY ── */
     #apps { background: var(--bg); }
 
@@ -1102,6 +1236,7 @@
       <li><a href="#hago">Lo que hago</a></li>
       <li><a href="#productos">Productos</a></li>
       <li><a href="#apps">Apps</a></li>
+      <li><a href="#musica">Música</a></li>
       <li><a href="#historia">Mi historia</a></li>
       <li><a href="#certs">Certificaciones</a></li>
       <li><a href="#contacto">Contacto</a></li>
@@ -1330,6 +1465,57 @@
           <div class="app-desc">Calcula tu compensación por turno de noche como sanitario. Rápido, visual y sin complicaciones.</div>
           <div class="app-cta">Probar gratis →</div>
         </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- MÚSICA BB & CODI -->
+  <section id="musica">
+    <div class="musica-inner">
+      <span class="section-label reveal">// Música</span>
+      <h2 class="section-title reveal">Bb &amp; Codi.<br><span style="color:var(--neon)">Música hecha con IA.</span></h2>
+      <p style="color:#888; max-width:600px; line-height:1.7; font-size:1rem;" class="reveal">Un proyecto musical donde la inteligencia artificial y la intuición humana crean juntas. Canciones reales, con alma, para creadores de contenido, cineastas y oyentes del mundo.</p>
+
+      <div class="reveal" style="margin: 1.5rem 0;">
+        <div class="musica-badge"><span>🏆</span> Primera venta conseguida · Balada coreana · 22 marzo 2026</div>
+      </div>
+
+      <div class="musica-albums">
+
+        <div class="album-card reveal">
+          <div class="album-label">Álbum 01</div>
+          <div class="album-title">Neon Nights</div>
+          <div class="album-desc">Para creadores de contenido. Música que hace que tus reels, TikToks y vlogs suenen al siguiente nivel.</div>
+          <ul class="album-tracks">
+            <li><a href="https://elevenlabs.io/app/music/explore/creator/qEpFe5HWZnebX5SW2TF6?selectedSongId=9qPFNx06y3P2ubCpNGPG" target="_blank">Coconut Sky</a></li>
+            <li><a href="https://elevenlabs.io/app/music/explore/creator/qEpFe5HWZnebX5SW2TF6?selectedSongId=W07ywhfujIoaul3RC4Ou" target="_blank">Summer Song</a></li>
+            <li><a href="https://elevenlabs.io/app/music/explore/creator/qEpFe5HWZnebX5SW2TF6" target="_blank">Más próximamente…</a></li>
+          </ul>
+          <a class="musica-cta" href="https://elevenlabs.io/app/music/explore/creator/qEpFe5HWZnebX5SW2TF6" target="_blank">Escuchar en ElevenLabs →</a>
+        </div>
+
+        <div class="album-card reveal">
+          <div class="album-label">Álbum 02</div>
+          <div class="album-title">Signal</div>
+          <div class="album-desc">BSO y storytelling. Música épica y cinematográfica para proyectos que necesitan emoción de verdad.</div>
+          <ul class="album-tracks">
+            <li><a href="https://elevenlabs.io/app/music/explore/creator/qEpFe5HWZnebX5SW2TF6?selectedSongId=MizmjsTgHve5hRJNlQf2" target="_blank">Codi's World</a></li>
+            <li><a href="https://elevenlabs.io/app/music/explore/creator/qEpFe5HWZnebX5SW2TF6" target="_blank">Más próximamente…</a></li>
+          </ul>
+          <a class="musica-cta" href="https://elevenlabs.io/app/music/explore/creator/qEpFe5HWZnebX5SW2TF6" target="_blank">Escuchar en ElevenLabs →</a>
+        </div>
+
+        <div class="album-card reveal">
+          <div class="album-label">Nicho especial ★</div>
+          <div class="album-title">Korean Hits</div>
+          <div class="album-desc">Baladas coreanas y K-indie. El nicho que nadie esperaba y que ya tiene su primera venta. El mercado manda.</div>
+          <ul class="album-tracks">
+            <li><a href="https://elevenlabs.io/app/music/explore/creator/qEpFe5HWZnebX5SW2TF6" target="_blank">Fading Memory ✓ vendida</a></li>
+            <li><a href="https://elevenlabs.io/app/music/explore/creator/qEpFe5HWZnebX5SW2TF6" target="_blank">Más próximamente…</a></li>
+          </ul>
+          <a class="musica-cta" href="https://elevenlabs.io/app/music/explore/creator/qEpFe5HWZnebX5SW2TF6" target="_blank">Escuchar en ElevenLabs →</a>
+        </div>
 
       </div>
     </div>
