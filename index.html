@@ -687,6 +687,115 @@
     }
 
     /* ── MÚSICA BB & CODI ── */
+    /* ── MANIFIESTO ── */
+    #manifiesto {
+      background: var(--bg);
+      text-align: center;
+    }
+
+    .manifiesto-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .manifiesto-quote {
+      font-size: clamp(1.2rem, 2.5vw, 1.7rem);
+      font-style: italic;
+      color: var(--white);
+      line-height: 1.6;
+      margin: 2rem auto 2.5rem;
+      max-width: 720px;
+      position: relative;
+      padding: 0 1.5rem;
+    }
+
+    .manifiesto-quote::before {
+      content: '"';
+      font-size: 5rem;
+      color: var(--neon);
+      opacity: 0.25;
+      position: absolute;
+      top: -1.5rem;
+      left: 0;
+      font-style: normal;
+      line-height: 1;
+    }
+
+    .manifiesto-quote em {
+      color: var(--neon);
+      font-style: normal;
+      font-weight: 700;
+    }
+
+    .manifiesto-video-wrap {
+      position: relative;
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto 2.5rem;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(0,255,136,0.2);
+      box-shadow: 0 0 60px rgba(0,255,136,0.1);
+      background: #000;
+      aspect-ratio: 16/9;
+    }
+
+    .manifiesto-video-wrap iframe {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .manifiesto-proximamente {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      min-height: 300px;
+      gap: 1rem;
+      color: var(--gray);
+    }
+
+    .manifiesto-proximamente .prox-icon {
+      font-size: 3rem;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.95); }
+    }
+
+    .manifiesto-proximamente p {
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .manifiesto-proximamente span {
+      font-size: 0.8rem;
+      color: var(--neon);
+    }
+
+    .manifiesto-tags {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 1.5rem;
+    }
+
+    .manifiesto-tag {
+      border: 1px solid rgba(0,255,136,0.25);
+      color: var(--neon);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      padding: 0.3rem 0.9rem;
+      border-radius: 100px;
+      text-transform: uppercase;
+    }
+
     #musica { background: var(--bg2); }
 
     .musica-inner {
@@ -1232,6 +1341,7 @@
       <span></span><span></span><span></span>
     </button>
     <ul class="nav-links" id="navLinks">
+      <li><a href="#manifiesto">Manifiesto</a></li>
       <li><a href="#sobre">Sobre mí</a></li>
       <li><a href="#hago">Lo que hago</a></li>
       <li><a href="#productos">Productos</a></li>
@@ -1253,12 +1363,48 @@
       Ahora te explica la IA pa que <em>no te quedes obsoleta.</em>
     </p>
     <div class="hero-cta">
-      <a href="#hago" class="btn-primary">Lo que hago</a>
+      <a href="#manifiesto" class="btn-primary">▶ Mi Manifiesto</a>
+      <a href="#hago" class="btn-secondary">Lo que hago</a>
       <a href="#contacto" class="btn-secondary">Encuéntrame</a>
     </div>
     <div class="scroll-hint">
       <span>↓</span>
       scroll
+    </div>
+  </section>
+
+  <!-- MANIFIESTO -->
+  <section id="manifiesto">
+    <div class="manifiesto-inner">
+      <span class="section-label reveal">// Episodio Zero</span>
+      <h2 class="section-title reveal">El <span style="color:var(--neon)">Manifiesto.</span><br>Por qué construyo esto.</h2>
+
+      <p class="manifiesto-quote reveal">
+        No tengo un plan de negocio.<br>
+        Tengo una <em>certeza</em>:<br>
+        que la IA va a cambiar el mundo,<br>
+        y que yo voy a estar ahí cuando pase.
+      </p>
+
+      <div class="manifiesto-video-wrap reveal">
+        <!-- Cuando el vídeo esté en YouTube, sustituir por:
+        <iframe src="https://www.youtube.com/embed/TU_VIDEO_ID" frameborder="0" allowfullscreen></iframe>
+        -->
+        <div class="manifiesto-proximamente">
+          <div class="prox-icon">▶</div>
+          <p>Vídeo próximamente</p>
+          <span>Editando con subtítulos · Publicación inminente</span>
+        </div>
+      </div>
+
+      <div class="manifiesto-tags reveal">
+        <span class="manifiesto-tag">Enfermera</span>
+        <span class="manifiesto-tag">IA</span>
+        <span class="manifiesto-tag">Voz clonada</span>
+        <span class="manifiesto-tag">Data Trainer</span>
+        <span class="manifiesto-tag">Artista digital</span>
+        <span class="manifiesto-tag">Bb & Codi Music</span>
+      </div>
     </div>
   </section>
 
@@ -1477,11 +1623,61 @@
       <h2 class="section-title reveal">Bb &amp; Codi.<br><span style="color:var(--neon)">Música hecha con IA.</span></h2>
       <p style="color:#888; max-width:600px; line-height:1.7; font-size:1rem;" class="reveal">Un proyecto musical donde la inteligencia artificial y la intuición humana crean juntas. Canciones reales, con alma, para creadores de contenido, cineastas y oyentes del mundo.</p>
 
-      <div class="reveal" style="margin: 1.5rem 0;">
-        <div class="musica-badge"><span>🏆</span> Primera venta conseguida · Balada coreana · 22 marzo 2026</div>
+      <div class="reveal" style="margin: 1.5rem 0; display:flex; gap:1rem; flex-wrap:wrap; justify-content:center;">
+        <div class="musica-badge"><span>🏆</span> 2 ventas · Algorithm Pulse &amp; Fading Memory</div>
+        <div class="musica-badge"><span>🎵</span> 24 canciones live · ElevenLabs marketplace</div>
+        <div class="musica-badge"><span>📺</span> Canal YouTube · 309 visualizaciones</div>
+      </div>
+
+      <div class="reveal" style="text-align:center; margin-bottom:2.5rem;">
+        <a class="musica-cta" href="https://www.youtube.com/channel/UCRDNWb5DD88ULmktd51ogzQ" target="_blank" style="display:inline-flex; align-items:center; gap:0.5rem;">▶ @bbandcodimusic en YouTube</a>
       </div>
 
       <div class="musica-albums">
+
+        <div class="album-card reveal" style="border-color:rgba(0,255,136,0.4);">
+          <div class="album-label" style="color:var(--neon);">⭐ Estrella del catálogo</div>
+          <div class="album-title">Algorithm Pulse</div>
+          <div class="album-desc">Dark Tech House. 2 compras, 40+ interacciones. Nuestro hit número uno — el algoritmo lo eligió.</div>
+          <ul class="album-tracks">
+            <li><a href="https://elevenlabs.io/app/music/explore/creator/qEpFe5HWZnebX5SW2TF6?selectedSongId=vEhfO3c6dirGLaHEKKTQ" target="_blank">Algorithm Pulse ✓ 2 ventas</a></li>
+            <li><a href="https://youtu.be/A5HjKJT_2ZQ" target="_blank">▶ Short en YouTube</a></li>
+          </ul>
+          <a class="musica-cta" href="https://elevenlabs.io/app/music/explore/creator/qEpFe5HWZnebX5SW2TF6?selectedSongId=vEhfO3c6dirGLaHEKKTQ" target="_blank">Escuchar en ElevenLabs →</a>
+        </div>
+
+        <div class="album-card reveal">
+          <div class="album-label">🌊 Nicho único</div>
+          <div class="album-title">Sunshine in Mallorca</div>
+          <div class="album-desc">Lo-fi mediterránea con alma española. El género que no existía en el marketplace. Nuestro nicho diferenciador.</div>
+          <ul class="album-tracks">
+            <li><a href="https://elevenlabs.io/app/music/explore/creator/qEpFe5HWZnebX5SW2TF6?selectedSongId=3mg0WTt9CQSEAdU6S6Er" target="_blank">Sunshine in Mallorca</a></li>
+            <li><a href="https://youtu.be/zjq0Jl6bK14" target="_blank">▶ Short en YouTube</a></li>
+          </ul>
+          <a class="musica-cta" href="https://elevenlabs.io/app/music/explore/creator/qEpFe5HWZnebX5SW2TF6?selectedSongId=3mg0WTt9CQSEAdU6S6Er" target="_blank">Escuchar en ElevenLabs →</a>
+        </div>
+
+        <div class="album-card reveal">
+          <div class="album-label">🌐 Nuevo · 30 marzo 2026</div>
+          <div class="album-title">Neon Grid Drive</div>
+          <div class="album-desc">Synthwave / Retrowave 80s. Ya en YouTube en vídeo de 40 minutos para máximo watch time.</div>
+          <ul class="album-tracks">
+            <li><a href="https://elevenlabs.io/app/music/explore/creator/qEpFe5HWZnebX5SW2TF6" target="_blank">Neon Grid Drive</a></li>
+            <li><a href="https://youtu.be/W-_Z7pseIiE" target="_blank">▶ Loop 40 min en YouTube</a></li>
+          </ul>
+          <a class="musica-cta" href="https://youtu.be/W-_Z7pseIiE" target="_blank">Ver en YouTube →</a>
+        </div>
+
+        <div class="album-card reveal">
+          <div class="album-label">Nicho especial ★</div>
+          <div class="album-title">Korean Hits</div>
+          <div class="album-desc">Baladas coreanas y K-indie. El nicho que nadie esperaba y que ya tiene su primera venta.</div>
+          <ul class="album-tracks">
+            <li><a href="https://elevenlabs.io/app/music/explore/creator/qEpFe5HWZnebX5SW2TF6" target="_blank">Fading Memory ✓ vendida</a></li>
+            <li><a href="https://elevenlabs.io/app/music/explore/creator/qEpFe5HWZnebX5SW2TF6" target="_blank">Más próximamente…</a></li>
+          </ul>
+          <a class="musica-cta" href="https://elevenlabs.io/app/music/explore/creator/qEpFe5HWZnebX5SW2TF6" target="_blank">Escuchar en ElevenLabs →</a>
+        </div>
 
         <div class="album-card reveal">
           <div class="album-label">Álbum 01</div>
@@ -1490,7 +1686,6 @@
           <ul class="album-tracks">
             <li><a href="https://elevenlabs.io/app/music/explore/creator/qEpFe5HWZnebX5SW2TF6?selectedSongId=9qPFNx06y3P2ubCpNGPG" target="_blank">Coconut Sky</a></li>
             <li><a href="https://elevenlabs.io/app/music/explore/creator/qEpFe5HWZnebX5SW2TF6?selectedSongId=W07ywhfujIoaul3RC4Ou" target="_blank">Summer Song</a></li>
-            <li><a href="https://elevenlabs.io/app/music/explore/creator/qEpFe5HWZnebX5SW2TF6" target="_blank">Más próximamente…</a></li>
           </ul>
           <a class="musica-cta" href="https://elevenlabs.io/app/music/explore/creator/qEpFe5HWZnebX5SW2TF6" target="_blank">Escuchar en ElevenLabs →</a>
         </div>
@@ -1506,17 +1701,10 @@
           <a class="musica-cta" href="https://elevenlabs.io/app/music/explore/creator/qEpFe5HWZnebX5SW2TF6" target="_blank">Escuchar en ElevenLabs →</a>
         </div>
 
-        <div class="album-card reveal">
-          <div class="album-label">Nicho especial ★</div>
-          <div class="album-title">Korean Hits</div>
-          <div class="album-desc">Baladas coreanas y K-indie. El nicho que nadie esperaba y que ya tiene su primera venta. El mercado manda.</div>
-          <ul class="album-tracks">
-            <li><a href="https://elevenlabs.io/app/music/explore/creator/qEpFe5HWZnebX5SW2TF6" target="_blank">Fading Memory ✓ vendida</a></li>
-            <li><a href="https://elevenlabs.io/app/music/explore/creator/qEpFe5HWZnebX5SW2TF6" target="_blank">Más próximamente…</a></li>
-          </ul>
-          <a class="musica-cta" href="https://elevenlabs.io/app/music/explore/creator/qEpFe5HWZnebX5SW2TF6" target="_blank">Escuchar en ElevenLabs →</a>
-        </div>
+      </div>
 
+      <div class="reveal" style="text-align:center; margin-top:3rem;">
+        <p style="color:#666; font-size:0.85rem; letter-spacing:0.1em; text-transform:uppercase;">Two minds, one sound. 🖤⚡</p>
       </div>
     </div>
   </section>
