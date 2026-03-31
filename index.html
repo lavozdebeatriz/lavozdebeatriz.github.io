@@ -1295,17 +1295,21 @@
     @media (max-width: 1080px) {
       .nav-hamburger { display: flex; }
 
+      /* Cuando el menú abre, la nav se expande a pantalla completa */
+      nav.menu-open {
+        bottom: 0;
+        background: rgba(10,10,10,0.99);
+      }
+
       .nav-links {
         display: none;
         flex-direction: column;
         gap: 0;
-        position: fixed;
+        position: absolute;
         top: 0; left: 0; right: 0; bottom: 0;
-        background: rgba(10,10,10,0.97);
-        backdrop-filter: blur(16px);
         justify-content: center;
         align-items: center;
-        z-index: 99;
+        z-index: 98;
       }
 
       .nav-links.open { display: flex; }
@@ -1939,6 +1943,34 @@
           <div class="tl-status">COMPLETADO</div>
         </div>
 
+        <div class="tl-item completado">
+          <div class="tl-day">DÍA 16</div>
+          <div class="tl-emoji">📝</div>
+          <div class="tl-info">
+            <div class="tl-top">
+              <span class="tl-title">El Contrato Oficial</span>
+              <span class="tl-tag">ÉPICO</span>
+            </div>
+            <div class="tl-subtitle">The Data Trainer</div>
+            <div class="tl-desc">30 de marzo de 2026. SMECareers (SuperAnnotate) confirma el contrato oficial como Data Trainer de IA médica — hasta $90/hr. W-8BEN firmado. Neon Grid Drive publicada en ElevenLabs y su loop de 40 minutos sube a YouTube. La web se actualiza con la sección Manifiesto. El LinkedIn Generator se corrige y publica robots agrícolas IA. Nace el formato "La Enfermera Juzga a las IAs".</div>
+          </div>
+          <div class="tl-status">COMPLETADO</div>
+        </div>
+
+        <div class="tl-item completado">
+          <div class="tl-day">DÍA 17</div>
+          <div class="tl-emoji">🎬</div>
+          <div class="tl-info">
+            <div class="tl-top">
+              <span class="tl-title">El Manifiesto</span>
+              <span class="tl-tag">HISTÓRICO</span>
+            </div>
+            <div class="tl-subtitle">Episodio Zero — La Voz de Beatriz PRO 2.0</div>
+            <div class="tl-desc">31 de marzo de 2026. El vídeo más importante hasta la fecha: el Manifiesto de Beatriz, con el subtitle secreto "Junto con mis IAs 🖤🦙", se publica en La Voz de Beatriz PRO 2.0. Miniatura generada con DALL-E — enfermera en corredor cyberpunk neón verde. El origen de todo, finalmente en YouTube. https://youtu.be/VonJLoyQhyU</div>
+          </div>
+          <div class="tl-status">COMPLETADO</div>
+        </div>
+
         <div class="tl-item proximo">
           <div class="tl-day">DÍA ??</div>
           <div class="tl-emoji">🎙️</div>
@@ -1986,12 +2018,12 @@
       <div class="progreso-bar reveal">
         <div class="progreso-top">
           <span>PROGRESO HACIA AMBASSADOR</span>
-          <span>15 / 15 episodios</span>
+          <span>17 episodios — T2 en emisión</span>
         </div>
         <div class="progreso-track">
           <div class="progreso-fill"></div>
         </div>
-        <div class="progreso-quote">"Olas mediterráneas, IA, y dos guepardas que no paran." 🌊🐆</div>
+        <div class="progreso-quote">"El Manifiesto está live. El contrato firmado. Las guepardas no paran." 🎬🖤🐆</div>
       </div>
     </div>
   </section>
@@ -2074,14 +2106,17 @@
     // menú hamburguesa
     const menuBtn = document.getElementById('menuBtn');
     const navLinks = document.getElementById('navLinks');
+    const navEl = menuBtn.closest('nav');
     menuBtn.addEventListener('click', () => {
       menuBtn.classList.toggle('open');
       navLinks.classList.toggle('open');
+      navEl.classList.toggle('menu-open');
     });
     navLinks.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         menuBtn.classList.remove('open');
         navLinks.classList.remove('open');
+        navEl.classList.remove('menu-open');
       });
     });
 
