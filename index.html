@@ -89,21 +89,53 @@
       overflow: hidden;
     }
 
-    /* animated grid background */
+    /* ── STARFIELD CANVAS ── */
+    #starCanvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* nebula glow overlay */
     #hero::before {
       content: '';
       position: absolute;
       inset: 0;
-      background-image:
-        linear-gradient(rgba(0,255,136,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,255,136,0.04) 1px, transparent 1px);
-      background-size: 60px 60px;
-      animation: gridMove 20s linear infinite;
+      background:
+        radial-gradient(ellipse 90% 60% at 15% 50%, rgba(0,255,136,0.06) 0%, transparent 55%),
+        radial-gradient(ellipse 70% 50% at 85% 25%, rgba(0,204,170,0.05) 0%, transparent 50%),
+        radial-gradient(ellipse 50% 70% at 50% 90%, rgba(0,60,200,0.04) 0%, transparent 55%);
+      animation: nebulaPulse 14s ease-in-out infinite alternate;
+      z-index: 0;
     }
 
-    @keyframes gridMove {
-      from { transform: translateY(0); }
-      to   { transform: translateY(60px); }
+    @keyframes nebulaPulse {
+      0%   { opacity: 0.5; transform: scale(1); }
+      100% { opacity: 1;   transform: scale(1.04); }
+    }
+
+    /* shooting star */
+    .shooting-star {
+      position: absolute;
+      width: 2px;
+      height: 80px;
+      background: linear-gradient(to bottom, rgba(0,255,136,0.9), transparent);
+      border-radius: 2px;
+      animation: shoot 6s linear infinite;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .shooting-star:nth-child(2) { animation-delay: 2s; left: 30%; top: 10%; transform: rotate(25deg); }
+    .shooting-star:nth-child(3) { animation-delay: 4s; left: 70%; top: 5%;  transform: rotate(20deg); }
+
+    @keyframes shoot {
+      0%   { opacity: 0; transform: translateY(-40px) rotate(inherit); }
+      10%  { opacity: 1; }
+      80%  { opacity: 0.4; }
+      100% { opacity: 0; transform: translateY(180px) rotate(inherit); }
     }
 
     .hero-badge {
@@ -797,6 +829,119 @@
       text-transform: uppercase;
     }
 
+    /* ── FORMULARIO SUEÑOS ── */
+    .sueños-form-wrap {
+      max-width: 640px;
+      margin: 2.5rem auto 0;
+    }
+
+    .sueños-form-inner {
+      background: rgba(0,255,136,0.03);
+      border: 1px solid rgba(0,255,136,0.22);
+      border-radius: 20px;
+      padding: 2rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sueños-form-inner::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--neon), var(--agua), var(--neon));
+    }
+
+    .sueños-form-header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .sueños-icon { font-size: 2rem; display: block; margin-bottom: 0.5rem; }
+
+    .sueños-form-header h3 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+    }
+
+    .sueños-form-header p {
+      color: #aaa;
+      font-size: 0.9rem;
+      line-height: 1.55;
+    }
+
+    .sueños-form-header p strong { color: var(--white); }
+    .sueños-form-header p em { color: var(--neon); font-style: normal; }
+
+    .sueños-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .sueños-form textarea,
+    .sueños-form input[type="email"] {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(0,255,136,0.15);
+      border-radius: 10px;
+      color: var(--white);
+      font-family: inherit;
+      font-size: 0.9rem;
+      padding: 0.85rem 1rem;
+      resize: none;
+      transition: border-color 0.25s;
+      outline: none;
+      width: 100%;
+    }
+
+    .sueños-form textarea:focus,
+    .sueños-form input[type="email"]:focus { border-color: var(--neon); }
+
+    .sueños-form textarea::placeholder,
+    .sueños-form input::placeholder { color: #444; }
+
+    .sueños-check {
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-start;
+      cursor: pointer;
+      color: #aaa;
+      font-size: 0.85rem;
+      line-height: 1.45;
+    }
+
+    .sueños-check input[type="checkbox"] {
+      accent-color: var(--neon);
+      width: 16px; height: 16px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .sueños-check strong { color: var(--neon); }
+
+    .sueños-disclaimer {
+      text-align: center;
+      color: var(--gray);
+      font-size: 0.75rem;
+      margin-top: 0.75rem;
+      letter-spacing: 0.04em;
+    }
+
+    #dreamForm .btn-primary { width: 100%; text-align: center; cursor: pointer; border: none; }
+
+    #dreamForm .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 35px rgba(0,255,136,0.55); }
+
+    #dreamForm-success {
+      display: none;
+      text-align: center;
+      color: var(--neon);
+      font-weight: 700;
+      font-size: 1.1rem;
+      padding: 1rem 0;
+    }
+
     #musica { background: var(--bg2); }
 
     .musica-inner {
@@ -1364,6 +1509,10 @@
 
   <!-- HERO -->
   <section id="hero">
+    <canvas id="starCanvas"></canvas>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
     <div class="hero-badge">La Enfermera que entiende la IA</div>
     <h1 class="hero-name">La Voz de <span>Beatriz</span></h1>
     <p class="hero-title">Enfermera · Creadora · Voz del futuro</p>
@@ -1397,6 +1546,28 @@
 
       <div class="manifiesto-video-wrap reveal">
         <iframe src="https://www.youtube.com/embed/VonJLoyQhyU" frameborder="0" allowfullscreen></iframe>
+      </div>
+
+      <!-- FORMULARIO SUEÑOS CREATIVOS -->
+      <div class="sueños-form-wrap reveal">
+        <div class="sueños-form-inner">
+          <div class="sueños-form-header">
+            <span class="sueños-icon">✨</span>
+            <h3>¿Tienes un sueño creativo?</h3>
+            <p>Cuéntamelo aquí. En menos de <strong>7 días</strong> te lo envío hecho —<br><em>completamente gratis.</em></p>
+          </div>
+          <form class="sueños-form" id="dreamForm">
+            <textarea name="dream" placeholder="Escribe aquí tu sueño... (una canción, una app, una web, un podcast...)" rows="3" required></textarea>
+            <input type="email" name="email" placeholder="Tu dirección de correo" required>
+            <label class="sueños-check">
+              <input type="checkbox" name="follow" required>
+              <span>Acepto seguir a <strong>@lavozdebeatriz en X</strong> y al canal <strong>@bbandcodimusic en ElevenLabs</strong> — el único pago que pido 🖤</span>
+            </label>
+            <button type="submit" class="btn-primary">Enviar mi sueño →</button>
+          </form>
+          <div id="dreamForm-success">¡Recibido! 🚀 Te escribo en menos de 7 días. Gracias por confiar.</div>
+          <p class="sueños-disclaimer">Sin spam. Sin coste. Solo creatividad y buena vibra.</p>
+        </div>
       </div>
 
       <div class="manifiesto-tags reveal">
@@ -2144,6 +2315,75 @@
         if (!isOpen) card.classList.add('open');
       });
     });
+
+    // ── STARFIELD ──
+    const canvas = document.getElementById('starCanvas');
+    if (canvas) {
+      const ctx = canvas.getContext('2d');
+      let stars = [];
+
+      function resizeCanvas() {
+        canvas.width  = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+      }
+
+      function initStars() {
+        stars = [];
+        for (let i = 0; i < 220; i++) {
+          stars.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            r: Math.random() * 1.4 + 0.2,
+            alpha: Math.random() * 0.8 + 0.1,
+            speed: Math.random() * 0.25 + 0.04,
+            twinkle: Math.random() * 0.018 + 0.004,
+            dir: Math.random() > 0.5 ? 1 : -1
+          });
+        }
+      }
+
+      function drawStars() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        stars.forEach(s => {
+          s.y -= s.speed;
+          if (s.y < -2) { s.y = canvas.height + 2; s.x = Math.random() * canvas.width; }
+          s.alpha += s.twinkle * s.dir;
+          if (s.alpha > 0.95 || s.alpha < 0.05) s.dir *= -1;
+
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255,255,255,${s.alpha})`;
+          ctx.fill();
+
+          if (s.r > 1.1) {
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.r * 2.5, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(0,255,136,${s.alpha * 0.12})`;
+            ctx.fill();
+          }
+        });
+        requestAnimationFrame(drawStars);
+      }
+
+      resizeCanvas();
+      initStars();
+      drawStars();
+      window.addEventListener('resize', () => { resizeCanvas(); initStars(); });
+    }
+
+    // ── FORMULARIO SUEÑOS ──
+    const dreamForm = document.getElementById('dreamForm');
+    if (dreamForm) {
+      dreamForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const email  = dreamForm.querySelector('input[type="email"]').value;
+        const dream  = dreamForm.querySelector('textarea').value;
+        const mailto = `mailto:lavozdebeatriz@gmail.com?subject=Sueño%20Creativo%20-%20Web&body=Email%3A%20${encodeURIComponent(email)}%0A%0ASueño%3A%20${encodeURIComponent(dream)}`;
+        window.location.href = mailto;
+        dreamForm.style.display = 'none';
+        document.getElementById('dreamForm-success').style.display = 'block';
+      });
+    }
 
     // scroll reveal
     const reveals = document.querySelectorAll('.reveal');
