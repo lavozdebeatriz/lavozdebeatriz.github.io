@@ -287,6 +287,48 @@
     /* ── SOBRE MÍ ── */
     #sobre {
       background: var(--bg2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Nebulosa CSS — colorida como la Nebulosa del Caballo */
+    #sobre::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 80% at 95% 10%,  rgba(180, 50, 255, 0.13) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 60% at 85% 60%,  rgba(255, 80, 180, 0.10) 0%, transparent 50%),
+        radial-gradient(ellipse 40% 50% at 75% 90%,  rgba(0, 150, 255, 0.09) 0%, transparent 45%),
+        radial-gradient(ellipse 30% 40% at 90% 40%,  rgba(0, 255, 136, 0.06) 0%, transparent 40%),
+        radial-gradient(ellipse 20% 30% at 80% 20%,  rgba(255, 200, 50, 0.05) 0%, transparent 35%);
+      pointer-events: none;
+      animation: nebulaShift 18s ease-in-out infinite alternate;
+      z-index: 0;
+    }
+
+    #sobre::after {
+      content: '';
+      position: absolute;
+      top: 5%; right: 2%;
+      width: 320px; height: 320px;
+      background: radial-gradient(ellipse, rgba(140, 40, 220, 0.12) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: nebulaFloat 10s ease-in-out infinite alternate;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    #sobre .sobre-inner { position: relative; z-index: 1; }
+
+    @keyframes nebulaShift {
+      0%   { opacity: 0.7; transform: scale(1) translateX(0); }
+      100% { opacity: 1;   transform: scale(1.06) translateX(-10px); }
+    }
+
+    @keyframes nebulaFloat {
+      0%   { transform: translateY(0) scale(1); }
+      100% { transform: translateY(20px) scale(1.1); }
     }
 
     .sobre-inner {
@@ -1562,6 +1604,10 @@
             <label class="sueños-check">
               <input type="checkbox" name="follow" required>
               <span>Acepto seguir a <strong>@lavozdebeatriz en X</strong> y al canal <strong>@bbandcodimusic en ElevenLabs</strong> — el único pago que pido 🖤</span>
+            </label>
+            <label class="sueños-check">
+              <input type="checkbox" name="privacy" required>
+              <span>He leído y acepto la <a href="politica-privacidad.html" target="_blank" style="color:var(--neon); text-decoration:underline;">Política de Privacidad</a>. Entiendo que mi correo se tratará con máxima confidencialidad y no será cedido a terceros. <a href="politica-privacidad.html" target="_blank" style="color:var(--gray); font-size:0.8em;">(descargar copia)</a></span>
             </label>
             <button type="submit" class="btn-primary">Enviar mi sueño →</button>
           </form>
