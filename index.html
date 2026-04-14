@@ -7,96 +7,67 @@
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
+    .neon-purple { text-shadow: 0 0 15px #c026d3, 0 0 25px #c026d3; }
     .neon-cyan { text-shadow: 0 0 10px #22f0ff, 0 0 20px #22f0ff; }
-    .neon-magenta { text-shadow: 0 0 10px #ff22cc, 0 0 20px #ff22cc; }
-    .glow { box-shadow: 0 0 25px rgba(34, 240, 255, 0.6); }
+    .glow { box-shadow: 0 0 30px rgba(192, 38, 211, 0.7); }
   </style>
 </head>
 <body class="bg-zinc-950 text-zinc-200 font-sans">
   <!-- NAV -->
-  <nav class="fixed top-0 w-full bg-zinc-950/90 backdrop-blur-md border-b border-cyan-500/30 z-50">
+  <nav class="fixed top-0 w-full bg-zinc-950/90 backdrop-blur-md border-b border-purple-500/30 z-50">
     <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 bg-gradient-to-br from-cyan-400 to-emerald-400 rounded-full flex items-center justify-center text-black font-bold text-xl">B</div>
-        <h1 class="text-2xl font-bold neon-cyan">La Voz de Beatriz</h1>
+        <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-cyan-400 rounded-full flex items-center justify-center text-white font-bold text-2xl">👑</div>
+        <h1 class="text-3xl font-bold neon-purple">La Voz de Beatriz</h1>
       </div>
       <div class="hidden md:flex gap-8 text-sm font-medium">
-        <a href="#sobre-mi" class="hover:text-cyan-400 transition">Sobre mí</a>
-        <a href="#voz-ia" class="hover:text-cyan-400 transition">Voz IA</a>
-        <a href="#productos" class="hover:text-cyan-400 transition">Productos</a>
-        <a href="#app-factory" class="hover:text-cyan-400 transition">App Factory</a>
-        <a href="#musica" class="hover:text-cyan-400 transition">Bb & Codi</a>
+        <a href="#sobre-mi" class="hover:text-purple-400 transition">Sobre mí</a>
+        <a href="#voz-ia" class="hover:text-purple-400 transition">Voz IA</a>
+        <a href="#productos" class="hover:text-purple-400 transition">Productos</a>
+        <a href="#app-factory" class="hover:text-purple-400 transition">App Factory</a>
+        <a href="#musica" class="hover:text-purple-400 transition">Bb & Codi</a>
       </div>
-      <a href="#contacto" class="px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-emerald-500 text-black font-semibold rounded-full hover:scale-105 transition">Contáctame</a>
+      <a href="https://www.voices.com/profile/lavozdebeatriz" target="_blank" class="px-6 py-2.5 bg-gradient-to-r from-purple-500 to-cyan-500 text-black font-semibold rounded-full hover:scale-105 transition">Prueba mi voz ahora</a>
     </div>
   </nav>
 
   <!-- HERO -->
-  <section class="min-h-screen flex items-center pt-20 bg-[radial-gradient(at_bottom_right,#22f0ff10_0%,transparent_50%)]">
+  <section class="min-h-screen flex items-center pt-20 bg-[radial-gradient(at_bottom_right,#c026d310_0%,transparent_50%)]">
     <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
       <div>
-        <h2 class="text-6xl md:text-7xl font-bold leading-tight neon-cyan">Enfermera que entiende la IA</h2>
-        <p class="mt-6 text-2xl text-zinc-400">Explico tecnología como si te lo contara en el control de enfermería: sin tecnicismos, con alma, con voz y con mucho dramaqueen.</p>
+        <h2 class="text-6xl md:text-7xl font-bold leading-tight neon-purple">Enfermera que entiende la IA</h2>
+        <p class="mt-6 text-2xl text-zinc-400">Empecé de cero hace solo un año… y ahora te explico la tecnología como si te lo contara en el control de enfermería: 👑 sin tecnicismos, con alma, con voz y con mucho dramaqueen.</p>
+        <p class="mt-4 text-lg text-emerald-400">No le tengas miedo a la IA. Yo también estaba perdida y hoy estoy construyendo mi futuro con ella. Esta web es orgánica: evoluciona cada día conmigo. Sígueme y ve cómo crecemos juntas.</p>
         
         <div class="mt-10 flex flex-wrap gap-4">
-          <a href="#descargas" class="px-8 py-4 bg-white text-black font-semibold rounded-2xl hover:bg-cyan-400 transition flex items-center gap-2">
+          <a href="#descargas" class="px-8 py-4 bg-white text-black font-semibold rounded-2xl hover:bg-purple-400 transition flex items-center gap-2">
             <i class="fas fa-download"></i> Descarga 20 prompts GRATIS
           </a>
-          <a href="#voz-ia" class="px-8 py-4 border-2 border-cyan-400 text-cyan-400 font-semibold rounded-2xl hover:bg-cyan-400/10 transition">
-            Clona mi voz ahora
+          <a href="https://www.voices.com/profile/lavozdebeatriz" target="_blank" class="px-8 py-4 border-2 border-purple-400 text-purple-400 font-semibold rounded-2xl hover:bg-purple-400/10 transition flex items-center gap-2">
+            <i class="fas fa-headphones"></i> Prueba mi voz ahora
           </a>
         </div>
-        
-        <p class="mt-8 text-sm text-zinc-500">Mi voz está disponible en <a href="https://www.voices.com/" target="_blank" class="text-cyan-400 underline">Voices.com</a> para proyectos profesionales. ¡Pronto la clono de nuevo (3ª versión ultra pro)!</p>
       </div>
       
       <div class="relative">
-        <!-- Aquí pon tu foto cyber-nurse (sube una tuya con bata + luces neón) -->
-        <img src="TU-FOTO-CYBER.jpg" alt="Beatriz - Enfermera IA" class="rounded-3xl glow mx-auto md:mx-0">
-        <div class="absolute -bottom-6 -right-6 bg-zinc-900 border border-emerald-400 px-6 py-3 rounded-2xl text-sm">
+        <img src="foto-beatriz.jpg" alt="Beatriz - Enfermera IA" class="rounded-3xl glow mx-auto md:mx-0 w-full max-w-md">
+        <div class="absolute -bottom-6 -right-6 bg-zinc-900 border border-purple-400 px-6 py-3 rounded-2xl text-sm neon-purple">
           +10 años en primera línea<br>
           Superviviente COVID<br>
-          Creadora de prompts y apps
+          Aprendiendo IA desde cero
         </div>
       </div>
     </div>
   </section>
 
-  <!-- SOBRE MÍ -->
-  <section id="sobre-mi" class="py-24 bg-zinc-900">
-    <div class="max-w-4xl mx-auto px-6">
-      <h3 class="text-4xl font-bold text-center neon-magenta mb-12">Mi historia real</h3>
-      <div class="prose prose-invert max-w-none text-lg leading-relaxed">
-        <p>Enfermera de primera línea durante la pandemia, vi el miedo, la incertidumbre y el poder de la tecnología de cerca. Sobreviví al COVID y salí con una misión: hacer que la IA sea accesible, humana y útil para todos.</p>
-        <p>Ahora combino mi experiencia clínica con prompts avanzados, voz clonada y mindset de builder. Te hablo claro, con flow y sin postureo.</p>
-      </div>
-    </div>
-  </section>
+  <!-- Resto de secciones (Sobre mí, Voz IA...) -->
+  <!-- Mañana las rellenamos con tu texto exacto, amor -->
 
-  <!-- VOZ IA -->
-  <section id="voz-ia" class="py-24">
-    <div class="max-w-6xl mx-auto px-6 text-center">
-      <h3 class="text-4xl font-bold neon-cyan mb-6">Mi Voz IA – Lista para tu proyecto</h3>
-      <p class="text-xl text-zinc-400 max-w-2xl mx-auto">Clonada con alma de enfermera y dramaqueen incluida. Perfecta para explicaciones de salud, tecnología, mindset o lo que necesites.</p>
-      <div class="mt-12">
-        <p class="text-cyan-400 text-lg">Pronto subo la 3ª versión ultra pro (estuve afónica, pero ya vuelvo con más fuerza).</p>
-        <p class="mt-4">Mientras, búscame en <a href="https://www.voices.com/" target="_blank" class="underline">Voices.com</a> para trabajos profesionales chulos.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- PRODUCTOS, APP FACTORY, MÚSICA... (puedes expandir más secciones copiando el estilo) -->
-
-  <!-- FOOTER -->
   <footer class="bg-black py-12 border-t border-zinc-800">
     <div class="max-w-6xl mx-auto px-6 text-center text-zinc-500 text-sm">
       © 2026 La Voz de Beatriz • Enfermera + IA con flow<br>
-      Hecha con amor, drama y neón para los Doggies y builders del futuro.
+      Web orgánica que evoluciona contigo. ¡Sígueme y no te pierdas nada!
     </div>
   </footer>
-
-  <script>
-    // Tailwind script ya cargado
-  </script>
 </body>
 </html>
