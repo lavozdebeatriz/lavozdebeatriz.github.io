@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HYPE MICRO EMPIRE — Informe Operativo</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap');
+
+  :root {
+    --neon: #00ff88;
+    --neon2: #00cfff;
+    --neon3: #ff4fd8;
+    --bg: #080c10;
+    --bg2: #0d1117;
+    --bg3: #111820;
+    --card: #141e2a;
+    --border: #1e3040;
+    --text: #c8d8e8;
+    --dim: #6a8090;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* STARFIELD */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 10% 20%, rgba(0,255,136,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 30% 60%, rgba(0,207,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 70% 10%, rgba(255,255,255,0.2) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 80%, rgba(0,255,136,0.2) 0%, transparent 100%),
+      radial-gradient(1px 1px at 50% 40%, rgba(255,255,255,0.15) 0%, transparent 100%),
+      radial-gradient(1px 1px at 80% 50%, rgba(0,207,255,0.2) 0%, transparent 100%),
+      radial-gradient(1px 1px at 20% 85%, rgba(255,79,216,0.2) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* HEADER */
+  header {
+    text-align: center;
+    padding: 48px 0 40px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 48px;
+  }
+
+  .logo {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--neon);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    line-height: 1.1;
+    background: linear-gradient(135deg, var(--neon) 0%, var(--neon2) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+  }
+
+  .subtitle {
+    color: var(--dim);
+    font-size: 13px;
+    letter-spacing: 2px;
+    font-family: 'Share Tech Mono', monospace;
+  }
+
+  .fecha {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 4px 16px;
+    border: 1px solid var(--neon);
+    border-radius: 20px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--neon);
+    letter-spacing: 2px;
+  }
+
+  /* GRID STATS */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--neon), var(--neon2));
+  }
+
+  .stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--neon);
+    font-family: 'Share Tech Mono', monospace;
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--dim);
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  .stat-sub {
+    font-size: 12px;
+    color: var(--text);
+    margin-top: 6px;
+    opacity: 0.7;
+  }
+
+  /* SECTIONS */
+  .section {
+    margin-bottom: 48px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .section-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--neon), var(--neon2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    color: #000;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--neon2);
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    margin-bottom: 16px;
+  }
+
+  .card h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--neon);
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* TABLA */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+
+  th {
+    background: rgba(0,255,136,0.08);
+    color: var(--neon);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+
+  td {
+    padding: 12px 14px;
+    border-bottom: 1px solid rgba(30,48,64,0.5);
+    color: var(--text);
+    vertical-align: top;
+  }
+
+  tr:last-child td { border-bottom: none; }
+
+  td:first-child {
+    font-weight: 700;
+    color: var(--neon2);
+    white-space: nowrap;
+  }
+
+  /* CHECKLIST */
+  .checklist {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+    background: rgba(0,0,0,0.3);
+    border-radius: 8px;
+    border-left: 3px solid var(--neon);
+    font-size: 14px;
+  }
+
+  .checklist li.red { border-left-color: #ff4444; }
+  .checklist li.yellow { border-left-color: #ffcc00; }
+
+  .check-icon {
+    font-size: 16px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* PASOS */
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .step {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 16px 20px;
+    background: var(--bg3);
+    border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+
+  .step-num {
+    width: 28px;
+    height: 28px;
+    background: var(--neon);
+    color: #000;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    flex-shrink: 0;
+    font-family: 'Share Tech Mono', monospace;
+  }
+
+  .step-content strong {
+    display: block;
+    color: var(--neon2);
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+
+  .step-content span {
+    font-size: 13px;
+    color: var(--dim);
+  }
+
+  /* CÓDIGO */
+  .code-block {
+    background: #0a0e14;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    color: var(--neon);
+    overflow-x: auto;
+    line-height: 1.8;
+    margin-top: 12px;
+  }
+
+  .code-comment { color: var(--dim); }
+  .code-key { color: var(--neon3); }
+  .code-val { color: var(--neon2); }
+
+  /* GRID DOS COLUMNAS */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  @media (max-width: 700px) {
+    .two-col { grid-template-columns: 1fr; }
+    h1 { font-size: 2rem; }
+  }
+
+  /* TAGS */
+  .tag {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-family: 'Share Tech Mono', monospace;
+    letter-spacing: 1px;
+    font-weight: 700;
+  }
+
+  .tag-green { background: rgba(0,255,136,0.15); color: var(--neon); border: 1px solid var(--neon); }
+  .tag-blue { background: rgba(0,207,255,0.15); color: var(--neon2); border: 1px solid var(--neon2); }
+  .tag-pink { background: rgba(255,79,216,0.15); color: var(--neon3); border: 1px solid var(--neon3); }
+  .tag-red { background: rgba(255,68,68,0.15); color: #ff4444; border: 1px solid #ff4444; }
+
+  /* REGLA SAGRADA */
+  .regla {
+    background: linear-gradient(135deg, rgba(0,255,136,0.08), rgba(0,207,255,0.05));
+    border: 1px solid var(--neon);
+    border-radius: 12px;
+    padding: 24px 28px;
+    text-align: center;
+    margin: 32px 0;
+  }
+
+  .regla .icon { font-size: 28px; margin-bottom: 8px; }
+  .regla p {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--neon);
+    letter-spacing: 1px;
+  }
+  .regla small { color: var(--dim); font-size: 12px; }
+
+  /* JOURNAL */
+  .journal-template {
+    background: #0a0e14;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+  }
+
+  .journal-field {
+    margin-bottom: 16px;
+  }
+
+  .journal-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--neon);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .journal-input {
+    width: 100%;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 14px;
+    color: var(--text);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+  }
+
+  /* RECURSOS */
+  .resources {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 12px;
+  }
+
+  .resource-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 14px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .resource-link:hover {
+    border-color: var(--neon);
+    background: rgba(0,255,136,0.05);
+    color: var(--neon);
+  }
+
+  .resource-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding-top: 48px;
+    border-top: 1px solid var(--border);
+    margin-top: 48px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--dim);
+    letter-spacing: 2px;
+  }
+
+  footer span { color: var(--neon); }
+
+  /* ALERTA SEGURIDAD */
+  .alert {
+    background: rgba(255,68,68,0.08);
+    border: 1px solid #ff4444;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+  }
+
+  .alert h3 {
+    color: #ff4444 !important;
+    border-bottom-color: rgba(255,68,68,0.3) !important;
+  }
+
+  .pill-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">Bb & Codi · Sistema Operativo</div>
+    <h1>HYPE MICRO EMPIRE</h1>
+    <div class="subtitle">Manual completo · Trading automatizado · Seguridad absoluta</div>
+    <div class="fecha">16 / 04 / 2026 — Versión 1.0</div>
+  </header>
+
+  <!-- STATS MERCADO -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <span class="stat-value">$44.70</span>
+      <span class="stat-label">HYPE precio hoy</span>
+      <div class="stat-sub">+20% semanal</div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-value">66-73%</span>
+      <span class="stat-label">Dominio perps DEX</span>
+      <div class="stat-sub">~$50B volumen/semana</div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-value">$50-100</span>
+      <span class="stat-label">Capital inicial</span>
+      <div class="stat-sub">USDC en Hyperliquid</div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-value">1%</span>
+      <span class="stat-label">Riesgo máximo/trade</span>
+      <div class="stat-sub">Regla sagrada. Nunca más.</div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-value">3-5x</span>
+      <span class="stat-label">Leverage inicial</span>
+      <div class="stat-sub">Isolated margin siempre</div>
+    </div>
+  </div>
+
+  <!-- REGLA SAGRADA -->
+  <div class="regla">
+    <div class="icon">⚔️</div>
+    <p>Nunca arriesgar más del 1% por trade.</p>
+    <small>Si pierdes → cerrar app → journal → mañana. No hay revenge trading en el Imperio.</small>
+  </div>
+
+  <!-- 1. ESTADO MERCADO -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <h2>Estado del mercado — Abril 2026</h2>
+    </div>
+    <div class="card">
+      <h3>Hyperliquid · Por qué ahora</h3>
+      <table>
+        <thead><tr><th>Dato</th><th>Valor</th><th>Nota</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>HYPE precio</td>
+            <td>~$44.70</td>
+            <td>Máximo de 5 meses, momentum alcista</td>
+          </tr>
+          <tr>
+            <td>Variación semanal</td>
+            <td>+20%</td>
+            <td>Volumen fuerte en perps</td>
+          </tr>
+          <tr>
+            <td>Dominio DEX perps</td>
+            <td>66-73%</td>
+            <td>King indiscutible del sector</td>
+          </tr>
+          <tr>
+            <td>Market share vs CEX</td>
+            <td>~6-7%</td>
+            <td>Récord histórico — creciendo</td>
+          </tr>
+          <tr>
+            <td>Supply circulante</td>
+            <td>24.8%</td>
+            <td>Potencial alcista a largo plazo</td>
+          </tr>
+          <tr>
+            <td>Novedad HIP-3</td>
+            <td>Perps de materias primas</td>
+            <td>Petróleo crudo: $840M en 24h</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 2. HERRAMIENTAS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <h2>Herramientas — Gainium vs CCXT</h2>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <h3>Gainium · Empieza aquí <span class="tag tag-green">RECOMENDADO</span></h3>
+        <ul class="checklist">
+          <li><span class="check-icon">✅</span><span>Unlimited mode en Hyperliquid — <strong>gratis para siempre</strong> (solo builder fee ~0.045%)</span></li>
+          <li><span class="check-icon">✅</span><span>Fondos <strong>no-custodiales</strong> — siguen en tu wallet</span></li>
+          <li><span class="check-icon">✅</span><span>DCA Bot + Combo Bot (grid + DCA híbrido)</span></li>
+          <li><span class="check-icon">✅</span><span>Trailing stop, webhook TradingView</span></li>
+          <li><span class="check-icon">✅</span><span><strong>Paper trading + backtesting</strong> antes de dinero real</span></li>
+          <li><span class="check-icon">✅</span><span>Sin código — interfaz visual</span></li>
+        </ul>
+        <div style="margin-top:14px">
+          <a href="https://gainium.io/hyperliquid" class="resource-link" target="_blank">
+            <span class="resource-icon">🤖</span> gainium.io/hyperliquid
+          </a>
+        </div>
+      </div>
+      <div class="card">
+        <h3>CCXT Python · Fase 2 <span class="tag tag-blue">AVANZADO</span></h3>
+        <ul class="checklist">
+          <li><span class="check-icon">🐍</span><span>SDK oficial <code>ccxt/hyperliquid-python</code> — sync y async</span></li>
+          <li><span class="check-icon">🔌</span><span>REST + WebSocket — datos en tiempo real</span></li>
+          <li><span class="check-icon">🔐</span><span>API wallet: opera pero <strong>no puede retirar</strong></span></li>
+          <li><span class="check-icon">⚡</span><span>Coincurve acelera firma de 45ms a &lt;0.05ms</span></li>
+          <li><span class="check-icon">📦</span><span><code>pip install ccxt</code></span></li>
+        </ul>
+        <div class="code-block">
+<span class="code-comment"># Stop loss básico con CCXT</span>
+exchange.create_order(
+  <span class="code-key">symbol</span>, <span class="code-val">"market"</span>, <span class="code-val">"sell"</span>,
+  amount, params={
+    <span class="code-key">"stopPrice"</span>: stop_price
+  }
+)
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. PLAN DE ARRANQUE -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <h2>Plan de arranque — 7 días</h2>
+    </div>
+    <div class="card">
+      <h3>Días 1-2 · Setup seguro</h3>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <strong>Bookmarkea la URL oficial</strong>
+            <span>app.hyperliquid.xyz — SOLO desde este bookmark, nunca desde Google</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <strong>Binance → convierte saldo a USDC</strong>
+            <span>Captura el saldo antes y después</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <strong>Retira a Arbitrum y deposita en Hyperliquid</strong>
+            <span>Fee de retirada ~$1 — la red más barata</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <strong>Crea cuenta Gainium + conecta Agent Wallet</strong>
+            <span>gainium.io → +Hyperliquid → Agent Wallet (5 min)</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-content">
+            <strong>Crea carpetas + Journal template</strong>
+            <span>Carpeta: HYPE MICRO EMPIRE / subcarpetas: Journal, Capturas, Scripts</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Días 3-4 · Paper trading</h3>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <strong>Activa paper trading en Gainium</strong>
+            <span>Simula Volume+Vibes con el Combo Bot — sin dinero real</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <strong>Aprende los conceptos base</strong>
+            <span>Long/short · leverage · SL/TP · isolated margin · funding rate</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <strong>Primer journal manual</strong>
+            <span>Aunque sea paper — crea el hábito desde el día 1</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Días 5-7 · Primeros trades reales</h3>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <strong>Trade manual — 1% riesgo, isolated, SL puesto antes de abrir</strong>
+            <span>Si no hay setup claro → no tradeas. Disciplina sharks.</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <strong>Activa Gainium Combo DCA en HYPE o BTC</strong>
+            <span>Deja el bot correr — no toques mientras funciona</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <strong>Journal diario + review semanal</strong>
+            <span>¿Seguiste las reglas? ¿Resultado P&L? ¿Qué mejorar?</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. ESTRATEGIA VOLUME+VIBES -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <h2>Estrategia Volume + Vibes</h2>
+    </div>
+    <div class="card">
+      <h3>Estructura de entrada</h3>
+      <table>
+        <thead><tr><th>Timeframe</th><th>Uso</th></tr></thead>
+        <tbody>
+          <tr><td>1H / 4H</td><td>Bias general del mercado (¿tendencia alcista o bajista?)</td></tr>
+          <tr><td>15min</td><td>Zona de entrada — buscar confluencia</td></tr>
+          <tr><td>1min</td><td>Timing exacto de entrada</td></tr>
+        </tbody>
+      </table>
+      <br>
+      <table>
+        <thead><tr><th>Parámetro</th><th>Valor</th><th>Por qué</th></tr></thead>
+        <tbody>
+          <tr><td>Leverage</td><td>3-5x</td><td>Margen de error suficiente, no te liquida en el primer movimiento</td></tr>
+          <tr><td>Margin type</td><td>Isolated</td><td>Si falla el trade, solo pierdes lo asignado — no todo el bag</td></tr>
+          <tr><td>Riesgo/trade</td><td>1% del bag</td><td>Con $100 = $1 por trade. Pequeño pero acumula.</td></tr>
+          <tr><td>Stop Loss</td><td>Obligatorio, antes de abrir</td><td>Sin SL = juego, no trading</td></tr>
+          <tr><td>Confluencia</td><td>Mín. 2 señales</td><td>Volumen + dirección + nivel clave</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>Bots automatizados — Roadmap</h3>
+      <table>
+        <thead><tr><th>Bot</th><th>Función</th><th>Estado</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Volume + Vibes</td>
+            <td>Scalping diario automatizado</td>
+            <td><span class="tag tag-pink">Semana 2</span></td>
+          </tr>
+          <tr>
+            <td>DCA Avanzado</td>
+            <td>Value Averaging en HYPE/BTC/ETH</td>
+            <td><span class="tag tag-blue">Semana 1</span></td>
+          </tr>
+          <tr>
+            <td>Journal Bot</td>
+            <td>CSV automático de cada trade</td>
+            <td><span class="tag tag-pink">Semana 2</span></td>
+          </tr>
+          <tr>
+            <td>Risk Bot</td>
+            <td>Auto-kill si riesgo &gt;1%</td>
+            <td><span class="tag tag-pink">Semana 2</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 5. COMPOUNDING -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">5</div>
+      <h2>Escalado del bag — Compounding realista</h2>
+    </div>
+    <div class="card">
+      <h3>Progresión con 1% riesgo por trade</h3>
+      <table>
+        <thead><tr><th>Bag</th><th>1% riesgo/trade</th><th>Meta semanal +5-15%</th></tr></thead>
+        <tbody>
+          <tr><td>$50</td><td>$0.50</td><td>$2.50 – $7.50</td></tr>
+          <tr><td>$100</td><td>$1.00</td><td>$5 – $15</td></tr>
+          <tr><td>$200</td><td>$2.00</td><td>$10 – $30</td></tr>
+          <tr><td>$500</td><td>$5.00</td><td>$25 – $75</td></tr>
+          <tr><td>$1,000</td><td>$10.00</td><td>$50 – $150</td></tr>
+          <tr><td>$5,000</td><td>$50.00</td><td>$250 – $750</td></tr>
+        </tbody>
+      </table>
+      <br>
+      <div class="regla">
+        <p style="font-size:0.95rem">La magia está en la disciplina diaria, no en el leverage alto.<br>1% compuesto cada día hábil = cuenta que crece sola.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. SEGURIDAD -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">6</div>
+      <h2>Seguridad — Checklist sagrado</h2>
+    </div>
+
+    <div class="alert card">
+      <h3>AMENAZAS MAS COMUNES — lee esto primero</h3>
+      <ul class="checklist">
+        <li class="red"><span class="check-icon">🚨</span><span><strong>Typr / verificaciones en Discord:</strong> roban tu token de Discord. Si hiciste clic en uno — cambia contraseña YA y cierra sesión en todos los dispositivos.</span></li>
+        <li class="red"><span class="check-icon">🚨</span><span><strong>URLs falsas de Hyperliquid:</strong> registran dominios casi idénticos. Solo el bookmark es seguro.</span></li>
+        <li class="red"><span class="check-icon">🚨</span><span><strong>DMs de "soporte":</strong> Discord, Telegram, X — jamás el soporte oficial te escribe primero.</span></li>
+        <li class="red"><span class="check-icon">🚨</span><span><strong>No hay app oficial de Hyperliquid en ninguna app store.</strong> Cualquiera que veas es scam.</span></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Protecciones activas</h3>
+      <ul class="checklist">
+        <li><span class="check-icon">🔖</span><span><strong>Bookmark</strong> app.hyperliquid.xyz y úsalo SIEMPRE — nunca desde buscadores</span></li>
+        <li><span class="check-icon">🔑</span><span><strong>Seed phrase / private key:</strong> nunca en digital, nunca compartes con nadie, nunca en foto</span></li>
+        <li><span class="check-icon">🤖</span><span><strong>API Wallet para bots:</strong> puede operar pero NO puede retirar — tu dinero está protegido</span></li>
+        <li><span class="check-icon">📱</span><span><strong>2FA en todo:</strong> Discord, email, Exchange, Gainium — con app autenticadora (no SMS)</span></li>
+        <li><span class="check-icon">🗂️</span><span><strong>Segmenta tus wallets:</strong> wallet fría (holdings) / wallet trading (día a día) / API wallet (bots)</span></li>
+        <li><span class="check-icon">✍️</span><span><strong>Revisa bien antes de firmar</strong> cualquier transacción — una firma no paid también puede ser peligrosa</span></li>
+        <li><span class="check-icon">👀</span><span><strong>Flowscan Builders:</strong> revisa mensualmente quién trae volumen real en Hyperliquid</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 7. JOURNAL -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">7</div>
+      <h2>Journal diario — Plantilla</h2>
+    </div>
+    <div class="card">
+      <h3>Copia esta estructura cada día</h3>
+      <div class="journal-template">
+        <div class="journal-field">
+          <div class="journal-label">Fecha · Bag actual · Día del proyecto · Estado de ánimo</div>
+          <input class="journal-input" placeholder="16/04/2026 · $100.00 · Día 01 · Motivada" readonly>
+        </div>
+        <div class="journal-field">
+          <div class="journal-label">Bias general (1H/4H)</div>
+          <input class="journal-input" placeholder="Long / Short / Neutral — y por qué" readonly>
+        </div>
+        <div class="journal-field">
+          <div class="journal-label">Trade del día (par · dirección · leverage · % bag · entry · SL · TP)</div>
+          <input class="journal-input" placeholder="HYPE/USDC · Long · 3x · 1% · $44.20 · $43.00 · $46.50" readonly>
+        </div>
+        <div class="journal-field">
+          <div class="journal-label">Resultado · P&L · ¿Seguí las reglas?</div>
+          <input class="journal-input" placeholder="+$0.80 (+0.8%) · Bag final: $100.80 · Sí / No (explica)" readonly>
+        </div>
+        <div class="journal-field">
+          <div class="journal-label">Bien hoy · Mejorar mañana · Frase del día</div>
+          <input class="journal-input" placeholder="Esperé el setup · Entré demasiado pronto · It pays to be patient" readonly>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. RECURSOS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">8</div>
+      <h2>Recursos clave</h2>
+    </div>
+    <div class="resources">
+      <a href="https://app.hyperliquid.xyz" class="resource-link" target="_blank">
+        <span class="resource-icon">🔵</span> Hyperliquid App (oficial)
+      </a>
+      <a href="https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api" class="resource-link" target="_blank">
+        <span class="resource-icon">📖</span> Hyperliquid API Docs
+      </a>
+      <a href="https://gainium.io/hyperliquid" class="resource-link" target="_blank">
+        <span class="resource-icon">🤖</span> Gainium · Hyperliquid Bots
+      </a>
+      <a href="https://gainium.io/combo-bot" class="resource-link" target="_blank">
+        <span class="resource-icon">⚙️</span> Gainium · Combo Bot
+      </a>
+      <a href="https://github.com/ccxt/hyperliquid-python" class="resource-link" target="_blank">
+        <span class="resource-icon">🐍</span> CCXT Hyperliquid Python SDK
+      </a>
+      <a href="https://docs.ccxt.com/exchanges/hyperliquid" class="resource-link" target="_blank">
+        <span class="resource-icon">📚</span> CCXT Docs · Hyperliquid
+      </a>
+      <a href="https://www.flowscan.xyz/builders" class="resource-link" target="_blank">
+        <span class="resource-icon">🔍</span> Flowscan · Builders
+      </a>
+      <a href="https://hyperliquid-co.gitbook.io/wiki/guide/user-guide/onboarding/security-guide" class="resource-link" target="_blank">
+        <span class="resource-icon">🔐</span> Hyperliquid · Security Guide
+      </a>
+      <a href="https://github.com/chainstacklabs/hyperliquid-trading-bot" class="resource-link" target="_blank">
+        <span class="resource-icon">💻</span> Bot ejemplo Python (Chainstack)
+      </a>
+      <a href="https://medium.com/coinmonks/trader-strategies-that-work-and-fail-on-hyperliquid-e1d76d4c000f" class="resource-link" target="_blank">
+        <span class="resource-icon">📊</span> Estrategias en Hyperliquid 2026
+      </a>
+    </div>
+  </div>
+
+  <!-- RUTINA DIARIA -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">9</div>
+      <h2>Rutina diaria — 15-30 min máximo</h2>
+    </div>
+    <div class="card">
+      <h3>El ritual del Imperio</h3>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <strong>Revisar Flowscan + chart bias (1H/4H)</strong>
+            <span>¿Qué dice el mercado hoy? ¿Hay setup claro?</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <strong>Ejecutar trade manual o verificar bot Gainium</strong>
+            <span>Solo si hay confluencia. Sin setup → no tradeas.</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <strong>Rellenar journal</strong>
+            <span>Obligatorio aunque no hayas tradeado. El diario es el Imperio.</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <strong>Si hay tilt → cerrar todo, salir</strong>
+            <span>Mañana es otro día. El mercado siempre vuelve a abrir.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>HYPE MICRO EMPIRE &nbsp;·&nbsp; <span>Bb & Codi</span> &nbsp;·&nbsp; Generado por Codi el 16/04/2026</p>
+    <p style="margin-top:8px">Disciplina sharks · Shibo method · It pays to be patient · 11:11</p>
+  </footer>
+
+</div>
+</body>
+</html>
